@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using VaultEdge.Application.Interfaces;
 
 namespace VaultEdge.Api.Controllers
 {

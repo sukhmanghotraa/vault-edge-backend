@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace VaultEdge.Application.Services
+namespace VaultEdge.Application.Interfaces
 {
     internal class IUserService
     {

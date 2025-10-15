@@ -8,5 +8,7 @@ namespace VaultEdge.Domain.Entities
 {
     internal class User
     {
+        public User() { }
+        public Guid Id { get; set; }
     }
 }

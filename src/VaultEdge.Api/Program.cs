@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
-using VaultEdge.Application.Services;
+using VaultEdge.Application.Interfaces;
 using VaultEdge.Infrastructure.Persistence;
+using VaultEdge.Application.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,6 +16,9 @@ builder.Services.AddSwaggerGen();
 
 // Add custom services (Application Layer)
 builder.Services.AddScoped<IAccountService, AccountService>();
+
+// Register Services
+builder.Services.AddScoped<AccountService>();
 
 var app = builder.Build();
 
