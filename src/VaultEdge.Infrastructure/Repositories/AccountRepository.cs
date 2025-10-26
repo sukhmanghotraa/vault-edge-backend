@@ -1,7 +1,7 @@
-﻿using VaultEdge.Domain.Entities;
+﻿using VaultEdge.Application.Interfaces;
+using VaultEdge.Domain.Entities;
 using VaultEdge.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
-using VaultEdge.Domain.Repositories;
 
 namespace VaultEdge.Infrastructure.Repositories
 {
