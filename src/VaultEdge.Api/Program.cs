@@ -1,13 +1,17 @@
 using Microsoft.EntityFrameworkCore;
-using VaultEdge.Application.Interfaces;
+using VaultEdge.Domain.Repositories;
 using VaultEdge.Infrastructure.Persistence;
-using VaultEdge.Application.Services;
+using VaultEdge.Infrastructure.Persistence.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add DB Context
 builder.Services.AddDbContext<VaultEdgeDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+builder.Services.AddMediatR(configuration =>
+{
+    configuration.RegisterServicesFromAssembly(typeof(Program).Assembly);
+});
 
 // Add Controllers & Swagger
 builder.Services.AddControllers();
@@ -15,10 +19,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 // Add custom services (Application Layer)
-builder.Services.AddScoped<IAccountService, AccountService>();
-
-// Register Services
-builder.Services.AddScoped<AccountService>();
+builder.Services.AddScoped<IAccountRepository, AccountRepository>();
 
 var app = builder.Build();
 

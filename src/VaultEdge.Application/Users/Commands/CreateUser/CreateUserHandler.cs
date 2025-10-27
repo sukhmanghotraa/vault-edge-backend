@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace VaultEdge.Application.Interfaces
+namespace VaultEdge.Application.Users.Comands.CreateUser
 {
-    internal class IUserService
+    internal class CreateUserHandler
     {
     }
 }
