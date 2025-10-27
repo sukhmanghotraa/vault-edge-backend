@@ -13,17 +13,17 @@ namespace VaultEdge.Application.Accounts.Commands.CreateAccount
             _accountRepository = accountRepository;
         }
 
-        //public async Task<Guid> Handle(CreateAccountCommand request, CancellationToken cancellationToken)
-        //{
-        //    var newAccount = new Account
-        //    {
-        //        UserId = request.UserId,
-        //        AccountType = request.AccountType,
-        //        Balance = 0m // New accounts start with a balance of 0
-        //    };
-        //    await _accountRepository.AddAsync(newAccount);
-        //    await _accountRepository.SaveChangesAsync();
-        //    return newAccount.Id;
+        public async Task<Guid> Handle(CreateAccountCommand request, CancellationToken cancellationToken)
+        {
+            var newAccount = new Account
+            {
+                UserId = request.UserId,
+                AccountType = request.AccountType,
+                Balance = 0m // New accounts start with a balance of 0
+            };
+            await _accountRepository.CreateAccountAsync(newAccount);
+            await _accountRepository.SaveChangesAsync();
+            return newAccount.Id;
         //}
     }
 }
