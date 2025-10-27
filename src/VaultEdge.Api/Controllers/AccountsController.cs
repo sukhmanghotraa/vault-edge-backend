@@ -1,5 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using VaultEdge.Application.Interfaces;
+﻿using MediatR;
+using Microsoft.AspNetCore.Mvc;
+using VaultEdge.Application.Accounts.Queries.GetAccountById;
 
 namespace VaultEdge.Api.Controllers
 {
@@ -7,18 +8,20 @@ namespace VaultEdge.Api.Controllers
     [Route("api/[controller]")]
     public class AccountsController : ControllerBase
     {
-        private readonly IAccountService _accountService;
+        private readonly IMediator _mediator;
 
-        public AccountsController(IAccountService accountService)
+        public AccountsController(IMediator mediator)
         {
-            _accountService = accountService;
+            _mediator = mediator;
         }
 
-        [HttpGet("{id}")]
-        public async Task<IActionResult> GetAccount(Guid id)
+        [HttpGet("{accountId}")]
+        public async Task<IActionResult> GetAccountById(Guid accountId)
         {
-            var account = await _accountService.GetAccountByIdAsync(id);
-            return account != null ? Ok(account) : NotFound();
+            var query = new GetAccountByIdQuery { AccountId = accountId };
+
+            var result = await _mediator.Send(query);
+            return Ok(result);
         }
     }
 }
