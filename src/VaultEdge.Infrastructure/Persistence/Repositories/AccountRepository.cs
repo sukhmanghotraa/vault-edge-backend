@@ -1,15 +1,14 @@
 ﻿using VaultEdge.Domain.Entities;
-using VaultEdge.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 using VaultEdge.Domain.Repositories;
 
-namespace VaultEdge.Infrastructure.Repositories
+namespace VaultEdge.Infrastructure.Persistence.Repositories
 {
-    public class AccountService : IAccountRepository
+    public class AccountRepository : IAccountRepository
     {
         private readonly VaultEdgeDbContext _context;
 
-        public AccountService(VaultEdgeDbContext context)
+        public AccountRepository(VaultEdgeDbContext context)
         {
             _context = context;
         }

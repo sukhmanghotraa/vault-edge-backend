@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace VaultEdge.Infrastructure.Repositories
+namespace VaultEdge.Application.Accounts.Queries.GetAllAccounts
 {
-    internal class UserRepository
+    internal class GetAllAccountsQuery
     {
     }
 }

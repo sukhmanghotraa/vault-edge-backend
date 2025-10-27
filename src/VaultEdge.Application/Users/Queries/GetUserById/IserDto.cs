@@ -1,8 +1,8 @@
 ﻿using VaultEdge.Domain.Entities;
 
-namespace VaultEdge.Application.Interfaces
+namespace VaultEdge.Application.Users.Queries.GetUserById
 {
-    public interface IUserService
+    internal class IserDto
     {
         Task<User?> GetUserName(Guid userId);
         Task<string> GetUserNameAsync(Guid userId);
