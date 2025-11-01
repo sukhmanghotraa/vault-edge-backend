@@ -1,6 +1,5 @@
-﻿using VaultEdge.Domain.Entities;
-
-namespace VaultEdge.Application.Users.Queries.GetUserById
+﻿
+namespace VaultEdge.Application.Users.Queries.GetAllUsers
 {
     public class UserDto
     {

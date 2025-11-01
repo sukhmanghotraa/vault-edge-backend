@@ -1,12 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿
+using MediatR;
+using VaultEdge.Domain.Entities;
 
 namespace VaultEdge.Application.Users.Queries.GetUserById
 {
-    internal class GetUserByIdQuery
+    public class GetUserByIdQuery : IRequest<User?>
     {
+        public Guid Id { get; set; }
+
+        public GetUserByIdQuery(Guid id)
+        {
+            Id = id;
+        }
+
     }
 }

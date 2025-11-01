@@ -11,11 +11,13 @@ public static class DependencyInjection
 {
     public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
     {
-        services.AddDbContext<VaultEdgeDbContext>(options =>
-            options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
+        services.AddSingleton<IUserRepository, InMemoryUserRepository>();
+        services.AddSingleton<IAccountRepository, InMemoryAccountRepository>();
+        //services.AddDbContext<VaultEdgeDbContext>(options =>
+        //    options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
 
-        services.AddScoped<IAccountRepository, AccountRepository>();
-        services.AddScoped<IUserRepository, UserRepository>();
+        //services.AddScoped<IAccountRepository, AccountRepository>();
+        //services.AddScoped<IUserRepository, UserRepository>();
 
         return services;
     }
