@@ -7,5 +7,14 @@ namespace VaultEdge.Domain.Entities
         public string AccountNumber { get; set; } = string.Empty;
         public decimal Balance { get; set; }
         public Guid UserId { get; set; }
+        public AccountType AccountType { get; set; }
+    }
+
+    public enum AccountType
+    {
+        PedningVerification,
+        Active,
+        Suspended,
+        Closed
     }
 }
