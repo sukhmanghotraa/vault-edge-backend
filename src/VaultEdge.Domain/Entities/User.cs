@@ -9,22 +9,21 @@ namespace VaultEdge.Domain.Entities
         /// </summary>
         public Guid Id { get; private set; }
 
-        [Required]
-        public required string FirstName { get; set; } = string.Empty;
-        public required string LastName { get; set; } = string.Empty;
+        public  string FirstName { get; set; } = string.Empty;
+        public  string LastName { get; set; } = string.Empty;
         public DateTime DateOfBirth { get; private set; }
 
         /// <summary>
         /// A government-issued id (e.g. National ID, Tax Number etc.)
         /// </summary>
         public string TaxId { get; private set; } = string.Empty;
-        public string IdentificationNumber { get; private set; } = string.Empty;
+        public string IdentificationId { get; private set; } = string.Empty;
         public  string Nationality { get; private set; } = string.Empty;
 
         /// <summary>
         /// Users login credentials.... a salted and hashed representation of the user's password
         /// </summary>
-        public required string Email { get; set; } = string.Empty;
+        public  string Email { get; set; } = string.Empty;
         public bool EmailConfirmed { get; set; }
         public string PasswordHash { get; set; } = string.Empty;
         public string PasswordSalt { get; set; } = string.Empty;
@@ -39,13 +38,13 @@ namespace VaultEdge.Domain.Entities
         /// <summary>
         /// Contact information
         /// </summary>
-        public required string PhoneNumber { get; set; } = string.Empty;
+        public  string PhoneNumber { get; set; } = string.Empty;
         public bool PhoneNumberConfirmed { get; set; }
 
         /// <summary>
         /// Physical addrss
         /// </summary>
-        public required string Address { get; set; } = string.Empty;
+        public  string Address { get; set; } = string.Empty;
 
         /// <summary>
         /// lockout information
@@ -60,12 +59,12 @@ namespace VaultEdge.Domain.Entities
         /// <summary>
         /// Status information
         /// </summary>
-        public required UserStatus Status{ get; set; }
+        public  UserStatus Status{ get; set; }
 
         /// <summary>
         /// Role information for authorization
         /// </summary>
-        public required UserRole Role { get; set; }
+        public  UserRole Role { get; set; }
 
         /// <summary>
         /// Timestamps
@@ -89,12 +88,21 @@ namespace VaultEdge.Domain.Entities
         /// </summary>
         public User(string firstName, string lastName, DateTime dateOfBirth, string taxId, string identificationId, string nationality, string email, string phoneNumber, string address)
         {
+            if (string.IsNullOrWhiteSpace(firstName)) throw new ArgumentException("First name is required");
+            if (string.IsNullOrWhiteSpace(lastName)) throw new ArgumentException("Email is requred");
+            if (string.IsNullOrWhiteSpace(taxId)) throw new ArgumentException("Email is requred");
+            if (string.IsNullOrWhiteSpace(identificationId)) throw new ArgumentException("Email is requred");
+            if (string.IsNullOrWhiteSpace(nationality)) throw new ArgumentException("Email is requred");
+            if (string.IsNullOrWhiteSpace(email)) throw new ArgumentException("Email is requred");
+            if (string.IsNullOrWhiteSpace(phoneNumber)) throw new ArgumentException("Email is requred");
+            if (string.IsNullOrWhiteSpace(address)) throw new ArgumentException("Email is requred");
+
             Id = Guid.NewGuid();
             FirstName = firstName;
             LastName = lastName;
             DateOfBirth = dateOfBirth;
             TaxId = taxId;
-            IdentificationNumber = identificationId;
+            IdentificationId = identificationId;
             Nationality = nationality;
             Email = email;
             PhoneNumber = phoneNumber;

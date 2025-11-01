@@ -1,12 +1,25 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using MediatR;
+using Microsoft.AspNetCore.Mvc;
+using VaultEdge.Application.Users.Comands.CreateUser;
 
 namespace VaultEdge.Api.Controllers
 {
-    public class UsersController : Controller
+    [ApiController]
+    [Route("api/[controller]")]
+    public class UsersController : ControllerBase
     {
-        public IActionResult Index()
+        private readonly IMediator _mediator;
+
+        public UsersController(IMediator mediator)
         {
-            return View();
+            _mediator = mediator;
+        }
+
+        [HttpGet("{accountId}")]
+        public async Task<IActionResult> CreateUser([FromBody] CreateUserCommand command)
+        {
+            var userId = await _mediator.Send(command);
+            return Ok(new { Id = userId });
         }
     }
 }
