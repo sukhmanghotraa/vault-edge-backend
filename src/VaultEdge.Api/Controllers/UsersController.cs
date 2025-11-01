@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using VaultEdge.Application.Users.Comands.CreateUser;
 using VaultEdge.Application.Users.Queries.GetUserById;
+using VaultEdge.Application.Users.Queries.GetAllUsers;
 
 namespace VaultEdge.Api.Controllers
 {

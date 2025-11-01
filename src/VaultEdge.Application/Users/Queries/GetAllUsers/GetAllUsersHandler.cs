@@ -2,7 +2,7 @@
 using VaultEdge.Domain.Entities;
 using VaultEdge.Domain.Repositories;
 
-namespace VaultEdge.Application.Users.Queries.GetUserById
+namespace VaultEdge.Application.Users.Queries.GetAllUsers
 {
     public class GetAllUsersHandler : IRequestHandler<GetAllUsersQuery, IEnumerable<User>>
     {
