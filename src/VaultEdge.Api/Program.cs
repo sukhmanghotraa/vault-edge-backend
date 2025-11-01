@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using VaultEdge.Application.Users.Comands.CreateUser;
 using VaultEdge.Domain.Repositories;
 using VaultEdge.Infrastructure.Persistence;
 using VaultEdge.Infrastructure.Persistence.Repositories;
@@ -20,6 +21,8 @@ builder.Services.AddSwaggerGen();
 
 // Add custom services (Application Layer)
 builder.Services.AddScoped<IAccountRepository, AccountRepository>();
+builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(CreateUserHandler).Assembly));
 
 var app = builder.Build();
 
