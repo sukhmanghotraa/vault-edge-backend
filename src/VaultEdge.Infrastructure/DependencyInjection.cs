@@ -1,0 +1,22 @@
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using VaultEdge.Domain.Repositories;
+using VaultEdge.Infrastructure.Persistence;
+using VaultEdge.Infrastructure.Persistence.Repositories;
+
+namespace VaultEdge.Infrastructure;
+
+public static class DependencyInjection
+{
+    public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
+    {
+        services.AddDbContext<VaultEdgeDbContext>(options =>
+            options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
+
+        services.AddScoped<IAccountRepository, AccountRepository>();
+        services.AddScoped<IUserRepository, UserRepository>();
+
+        return services;
+    }
+}
