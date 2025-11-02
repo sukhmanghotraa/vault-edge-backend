@@ -1,6 +1,6 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using VaultEdge.Application.Users.Comands.CreateUser;
+using VaultEdge.Application.Users.Commands.CreateUser;
 using VaultEdge.Application.Users.Queries.GetUserById;
 using VaultEdge.Application.Users.Queries.GetAllUsers;
 
@@ -21,7 +21,7 @@ namespace VaultEdge.Api.Controllers
         public async Task<IActionResult> CreateUser([FromBody] CreateUserCommand command)
         {
             var userId = await _mediator.Send(command);
-            return Ok(new { Id = userId });
+            return Ok(new { UserId = userId });
         }
 
         [HttpGet("{userId}")]
