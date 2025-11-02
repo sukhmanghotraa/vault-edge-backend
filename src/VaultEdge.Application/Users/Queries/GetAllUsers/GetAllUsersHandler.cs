@@ -1,27 +1,27 @@
-﻿
-using MediatR;
+﻿using MediatR;
 using VaultEdge.Application.Users.DTOs;
 using VaultEdge.Domain.Repositories;
 
-namespace VaultEdge.Application.Users.Queries.GetUserById
+namespace VaultEdge.Application.Users.Queries.GetAllUsers
 {
-    public class GetUserByIdHandler : IRequestHandler<GetUserByIdQuery, UserDto?>
+    public class GetAllUsersHandler : IRequestHandler<GetAllUsersQuery, IEnumerable<UserDto>>
     {
         private readonly IUserRepository _userRepository;
 
-        public GetUserByIdHandler(IUserRepository userRepository)
+        public GetAllUsersHandler(IUserRepository userRepository)
         {
             _userRepository = userRepository;
         }
 
-        public async Task<UserDto?> Handle(GetUserByIdQuery request, CancellationToken cancelationToken = default)
+        public async Task<IEnumerable<UserDto>> Handle(GetAllUsersQuery request, CancellationToken cancellationToken = default)
         {
-            var user = await _userRepository.GetByIdAsync(request.Id);
-            if (user == null) {
-                return null;
+            var users = await _userRepository.GetAllAsync();
+            if(users == null)
+            {
+                return Enumerable.Empty<UserDto>();
             }
 
-            return new UserDto
+            return users.Select(user => new UserDto
             {
                 Id = user.Id,
                 FirstName = user.FirstName,
@@ -32,7 +32,7 @@ namespace VaultEdge.Application.Users.Queries.GetUserById
                 Email = user.Email,
                 PhoneNumber = user.PhoneNumber,
                 Address = user.Address
-            };
+            });
         }
     }
 }
