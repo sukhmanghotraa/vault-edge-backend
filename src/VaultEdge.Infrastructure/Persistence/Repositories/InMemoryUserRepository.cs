@@ -14,6 +14,12 @@ namespace VaultEdge.Infrastructure.Persistence.Repositories
             return Task.CompletedTask;
         }
 
+        public Task<User> CreateUserAsync(User user)
+        {
+            _users[user.Id] = user;
+            return Task.FromResult(user);
+        }
+
         public Task<User?> GetByIdAsync(Guid id)
         {
             _users.TryGetValue(id, out var user);
@@ -29,12 +35,6 @@ namespace VaultEdge.Infrastructure.Persistence.Repositories
         public Task<IEnumerable<User>> GetAllAsync()
         {
             return Task.FromResult(_users.Values.AsEnumerable());
-        }
-
-        public Task<User> CreateUserAsync(User user)
-        {
-            _users[user.Id] = user;
-            return Task.FromResult(user);
         }
 
         public Task SaveChangesAsync()
