@@ -1,5 +1,6 @@
-﻿
-namespace VaultEdge.Application.Users.Queries.GetAllUsers
+﻿using VaultEdge.Domain.Entities;
+
+namespace VaultEdge.Application.Users.DTOs
 {
     public class UserDto
     {
@@ -12,5 +13,5 @@ namespace VaultEdge.Application.Users.Queries.GetAllUsers
         public string Email { get; set; } = string.Empty;
         public string PhoneNumber { get; set; } = string.Empty;
         public string Address { get; set; } = string.Empty;
-    }
+   }
 }
