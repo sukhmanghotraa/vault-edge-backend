@@ -1,5 +1,4 @@
-﻿using VaultEdge.Domain.Entities;
-
+﻿
 namespace VaultEdge.Application.Users.DTOs
 {
     public class UserDto
