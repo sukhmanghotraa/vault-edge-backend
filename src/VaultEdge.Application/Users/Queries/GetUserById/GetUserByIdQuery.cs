@@ -1,10 +1,10 @@
 ﻿
 using MediatR;
-using VaultEdge.Domain.Entities;
+using VaultEdge.Application.Users.DTOs;
 
 namespace VaultEdge.Application.Users.Queries.GetUserById
 {
-    public class GetUserByIdQuery : IRequest<User?>
+    public class GetUserByIdQuery : IRequest<UserDto?>
     {
         public Guid Id { get; set; }
 
@@ -12,6 +12,5 @@ namespace VaultEdge.Application.Users.Queries.GetUserById
         {
             Id = id;
         }
-
     }
 }

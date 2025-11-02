@@ -1,10 +1,9 @@
 ﻿
 using MediatR;
-using VaultEdge.Domain.Entities;
-using VaultEdge.Domain.Repositories;
+using VaultEdge.Application.Users.DTOs;
 
 namespace VaultEdge.Application.Users.Queries.GetAllUsers
 {
-    public class GetAllUsersQuery : IRequest<IEnumerable<User>> { }
+    public class GetAllUsersQuery : IRequest<IEnumerable<UserDto>> { }
 }
 
