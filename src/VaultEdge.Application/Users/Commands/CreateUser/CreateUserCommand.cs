@@ -1,7 +1,7 @@
 ﻿using MediatR;
 using VaultEdge.Domain.Entities;
 
-namespace VaultEdge.Application.Users.Comands.CreateUser
+namespace VaultEdge.Application.Users.Commands.CreateUser
 {
     public class CreateUserCommand : IRequest<Guid>
     {

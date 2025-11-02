@@ -2,7 +2,7 @@
 using VaultEdge.Domain.Entities;
 using VaultEdge.Domain.Repositories;
 
-namespace VaultEdge.Application.Users.Comands.CreateUser
+namespace VaultEdge.Application.Users.Commands.CreateUser
 {
     public class CreateUserHandler : IRequestHandler<CreateUserCommand, Guid>
     {
