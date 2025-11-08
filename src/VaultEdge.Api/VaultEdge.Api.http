@@ -4,13 +4,13 @@ POST {{VaultEdge.Api_HostAddress}}/api/users/
 Content-Type: application/json
 
 {
-  "firstName": "Stefan",
+  "firstName": "Alice",
   "lastName": "Smith",
   "dateOfBirth": "1992-04-15",
   "taxId": "TX12345",
   "identificationId": "ID12345",
   "nationality": "USA",
-  "email": "stefan.smith@example.com",
+  "email": "alice.smith@example.com",
   "phoneNumber": "+12025550123",
   "address": "123 Main St, Springfield"
 }
@@ -22,5 +22,21 @@ GET {{VaultEdge.Api_HostAddress}}/api/users
 ###
 
 GET {{VaultEdge.Api_HostAddress}}/api/users/0c5c0a0a-cdff-4cc5-a978-e895baecdfaa
+
+###
+
+POST {{VaultEdge.Api_HostAddress}}/api/accounts/
+Content-Type: application/json
+
+{
+  "userId": "07553756-89b2-444a-b5f4-3b68d41aab29",
+  "balance": 23.12,
+  "accountType": 0,
+  "accountNumber": "stringg"
+}
+
+###
+
+GET {{VaultEdge.Api_HostAddress}}/api/accounts
 
 ###
