@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using MediatR;
+using VaultEdge.Application.Accounts.DTOs;
 
-namespace VaultEdge.Application.Accounts.Queries.GetAllAccounts
-{
-    internal class GetAllAccountsQuery
-    {
-    }
-}
+namespace VaultEdge.Application.Accounts.Queries.GetAllAccounts;
+
+public class GetAllAccountsQuery : IRequest<IEnumerable<AccountDto>> { }

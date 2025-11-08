@@ -25,22 +25,18 @@ namespace VaultEdge.Infrastructure.Persistence.Repositories
 
         public async Task<Account> CreateAccountAsync(Account account)
         {
-            account.Id = Guid.NewGuid();
-            account.Balance = 0; // new accounts start with 0 balance
-
-            _context.Accounts.Add(account);
+            account.Balance = 0;
+            await _context.Accounts.AddAsync(account);
             await _context.SaveChangesAsync();
-
             return account;
         }
 
-        public async Task<Account?> DeleteAccountAsync(Guid id)
+        public async Task DeleteAccountAsync(Guid id)
         {
             var account = await _context.Accounts.FindAsync(id);
-            if (account == null) return null;
+            if (account == null) return;
             _context.Accounts.Remove(account);
             await _context.SaveChangesAsync();
-            return account;
         }
 
         public async Task<Account?> DepositAsync(Guid accountId, decimal amount)
