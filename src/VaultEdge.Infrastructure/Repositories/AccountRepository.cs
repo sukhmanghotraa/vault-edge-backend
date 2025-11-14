@@ -61,15 +61,13 @@ namespace VaultEdge.Infrastructure.Persistence.Repositories
             return account;
         }
 
-        public async Task SaveChangesAsync()
-        {
-            await _context.SaveChangesAsync();
-        }
-
-
         public async Task AddAsync(Account account)
         {
             await _context.Accounts.AddAsync(account);
+        }
+
+        public async Task SaveChangesAsync()
+        {
             await _context.SaveChangesAsync();
         }
 
