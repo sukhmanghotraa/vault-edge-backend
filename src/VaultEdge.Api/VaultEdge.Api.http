@@ -29,7 +29,7 @@ POST {{VaultEdge.Api_HostAddress}}/api/accounts/
 Content-Type: application/json
 
 {
-  "userId": "07553756-89b2-444a-b5f4-3b68d41aab29",
+  "userId": "1f9e9564-8ce3-4864-8544-1643e71579a3",
   "balance": 23.12,
   "accountType": 0,
   "accountNumber": "stringg"
