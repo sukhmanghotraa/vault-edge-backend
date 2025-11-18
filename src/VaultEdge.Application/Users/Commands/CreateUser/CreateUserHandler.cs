@@ -1,10 +1,11 @@
-﻿using MediatR;
+﻿using VaultEdge.Application.Abstractions;
 using VaultEdge.Domain.Entities;
 using VaultEdge.Domain.Repositories;
+using VaultEdge.Domain.Shared;
 
 namespace VaultEdge.Application.Users.Commands.CreateUser
 {
-    public class CreateUserHandler : IRequestHandler<CreateUserCommand, Guid>
+    public class CreateUserHandler : ICommandHandler<CreateUserCommand, Guid>
     {
         private readonly IUserRepository _userRepository;
 
@@ -13,7 +14,7 @@ namespace VaultEdge.Application.Users.Commands.CreateUser
             _userRepository = userRepository;
         }
 
-        public async Task<Guid> Handle(CreateUserCommand request, CancellationToken cancellationToken)
+        public async Task<Result<Guid>> Handle(CreateUserCommand request, CancellationToken cancellationToken)
         {
             var existingUser = await _userRepository.GetByEmailAsync(request.Email);
             if (existingUser != null)
@@ -33,7 +34,7 @@ namespace VaultEdge.Application.Users.Commands.CreateUser
 
             await _userRepository.AddAsync(newUser);
             await _userRepository.SaveChangesAsync();
-            return newUser.Id;
+            return Result.Success(newUser.Id);
         }
     }
 }

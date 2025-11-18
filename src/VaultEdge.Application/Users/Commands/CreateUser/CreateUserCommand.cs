@@ -1,9 +1,8 @@
-﻿using MediatR;
-using VaultEdge.Domain.Entities;
+﻿using VaultEdge.Application.Abstractions;
 
 namespace VaultEdge.Application.Users.Commands.CreateUser
 {
-    public class CreateUserCommand : IRequest<Guid>
+    public class CreateUserCommand : ICommand<Guid>
     {
         public required string FirstName { get; init; }
         public required string LastName { get; init; }
