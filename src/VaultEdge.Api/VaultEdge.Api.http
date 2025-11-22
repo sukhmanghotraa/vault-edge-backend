@@ -4,13 +4,13 @@ POST {{VaultEdge.Api_HostAddress}}/api/users/
 Content-Type: application/json
 
 {
-  "firstName": "Alice",
+  "firstName": "Ivan",
   "lastName": "Smith",
   "dateOfBirth": "1992-04-15",
   "taxId": "TX12345",
   "identificationId": "ID12345",
   "nationality": "USA",
-  "email": "alice.smith@example.com",
+  "email": "ivan.smith@example.com",
   "phoneNumber": "+12025550123",
   "address": "123 Main St, Springfield"
 }
@@ -21,7 +21,8 @@ GET {{VaultEdge.Api_HostAddress}}/api/users
 
 ###
 
-GET {{VaultEdge.Api_HostAddress}}/api/users/0c5c0a0a-cdff-4cc5-a978-e895baecdfaa
+GET {{VaultEdge.Api_HostAddress}}/api/users/55967870-3f95-4b04-a9e5-e401d0e878ab
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI1NTk2Nzg3MC0zZjk1LTRiMDQtYTllNS1lNDAxZDBlODc4YWIiLCJlbWFpbCI6Iml2YW4uc21pdGhAZXhhbXBsZS5jb20iLCJleHAiOjE3NjM4NTEwMDUsImlzcyI6IlZhdWx0RWRnZSIsImF1ZCI6IlZhdWx0RWRnZVVzZXJzIn0.UYCK2eODypAb35gvUg2OyjfZFWyHBioMkV3NfvVEb5Q
 
 ###
 
@@ -38,5 +39,12 @@ Content-Type: application/json
 ###
 
 GET {{VaultEdge.Api_HostAddress}}/api/accounts
+
+###
+
+GET {{VaultEdge.Api_HostAddress}}/api/users/login/
+{
+  "email": "ivan.smith@example.com"
+}
 
 ###
