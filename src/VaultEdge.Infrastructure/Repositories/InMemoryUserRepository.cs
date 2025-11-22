@@ -26,9 +26,15 @@ namespace VaultEdge.Infrastructure.Persistence.Repositories
             return Task.FromResult(user);
         }
 
-        public Task<User?> GetByEmailAsync(string email)
+        public Task<User?> GetByEmailAsync(string email, CancellationToken cancellationToken)
         {
             var user = _users.Values.FirstOrDefault(u => u.Email.Equals(email, StringComparison.OrdinalIgnoreCase));
+            return Task.FromResult(user);
+        }
+
+        public Task<User?> GetByCustomerIdAsync(Guid customerId)
+        {
+            var user = _users.Values.FirstOrDefault(u => u.CustomerId == customerId);
             return Task.FromResult(user);
         }
 

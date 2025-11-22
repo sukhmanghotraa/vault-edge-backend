@@ -1,11 +1,13 @@
 ﻿
 using MediatR;
 using VaultEdge.Application.Users.DTOs;
+using VaultEdge.Domain.Errors;
 using VaultEdge.Domain.Repositories;
+using VaultEdge.Domain.Shared;
 
 namespace VaultEdge.Application.Users.Queries.GetUserById
 {
-    public class GetUserByIdHandler : IRequestHandler<GetUserByIdQuery, UserDto?>
+    public class GetUserByIdHandler : IRequestHandler<GetUserByIdQuery, Result<UserDto?>>
     {
         private readonly IUserRepository _userRepository;
 
@@ -14,14 +16,15 @@ namespace VaultEdge.Application.Users.Queries.GetUserById
             _userRepository = userRepository;
         }
 
-        public async Task<UserDto?> Handle(GetUserByIdQuery request, CancellationToken cancelationToken = default)
+        public async Task<Result<UserDto?>> Handle(GetUserByIdQuery request, CancellationToken cancelationToken = default)
         {
             var user = await _userRepository.GetByIdAsync(request.Id);
             if (user == null) {
-                return null;
+                return Result.Failure<UserDto?>(
+                    DomainErrors.User.NotFound(request.Id));
             }
 
-            return new UserDto
+            var foundUser = new UserDto
             {
                 Id = user.Id,
                 FirstName = user.FirstName,
@@ -33,6 +36,8 @@ namespace VaultEdge.Application.Users.Queries.GetUserById
                 PhoneNumber = user.PhoneNumber,
                 Address = user.Address
             };
+
+            return Result.Success(foundUser);
         }
     }
 }

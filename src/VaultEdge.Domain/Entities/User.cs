@@ -8,6 +8,7 @@ namespace VaultEdge.Domain.Entities
         ///  User information
         /// </summary>
         public Guid Id { get; private set; }
+        public Guid CustomerId { get; set; }
 
         public  string FirstName { get; set; } = string.Empty;
         public  string LastName { get; set; } = string.Empty;
@@ -98,6 +99,7 @@ namespace VaultEdge.Domain.Entities
             if (string.IsNullOrWhiteSpace(address)) throw new ArgumentException("Email is requred");
 
             Id = Guid.NewGuid();
+            CustomerId = Guid.NewGuid();
             FirstName = firstName;
             LastName = lastName;
             DateOfBirth = dateOfBirth;

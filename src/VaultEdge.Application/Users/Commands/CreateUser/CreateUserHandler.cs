@@ -16,7 +16,7 @@ namespace VaultEdge.Application.Users.Commands.CreateUser
 
         public async Task<Result<Guid>> Handle(CreateUserCommand request, CancellationToken cancellationToken)
         {
-            var existingUser = await _userRepository.GetByEmailAsync(request.Email);
+            var existingUser = await _userRepository.GetByEmailAsync(request.Email, cancellationToken);
             if (existingUser != null)
                 throw new InvalidOperationException("A user with this email already exists.");
 
