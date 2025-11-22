@@ -1,3 +1,5 @@
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using VaultEdge.Api.OptionsSetup;
 using VaultEdge.Application;
 using VaultEdge.Infrastructure;
 
@@ -24,9 +26,13 @@ builder.Services.AddCors(options =>
         });
 });
 
+builder.Services.ConfigureOptions<JwtOptionsSetup>();
+builder.Services.ConfigureOptions<JwtBearerOptionsSetup>();
+
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer();
 
 var app = builder.Build();
-
 
 if (app.Environment.IsDevelopment())
 {
