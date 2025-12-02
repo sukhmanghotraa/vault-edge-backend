@@ -1,12 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using VaultEdge.Application.Abstractions;
 
 namespace VaultEdge.Application.Accounts.Commands.DeleteAccount
 {
-    internal class DeleteAccountCommand
+    public class DeleteAccountCommand : ICommand<Guid>
     {
+        public Guid AccountId { get; set; }
+
+        public DeleteAccountCommand(Guid accountId)
+        {
+            AccountId = accountId;
+        }
     }
 }

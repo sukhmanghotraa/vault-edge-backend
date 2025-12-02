@@ -21,6 +21,7 @@ namespace VaultEdge.Application.Accounts.Commands.CreateAccount
                 request.UserId,
                 request.Balance
             );
+
             await _accountRepository.AddAsync(newAccount);
             await _accountRepository.SaveChangesAsync();
             return Result.Success(newAccount.Id);
