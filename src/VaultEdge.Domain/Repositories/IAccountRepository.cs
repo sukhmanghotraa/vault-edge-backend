@@ -9,6 +9,6 @@ namespace VaultEdge.Domain.Repositories
         Task<IEnumerable<Account>> GetAllAsync();
         Task<Account> CreateAccountAsync(Account account);
         Task SaveChangesAsync();
-        Task DeleteAccountAsync(Guid id);
+        Task<Guid> DeleteAccountAsync(Guid id);
     }
 }

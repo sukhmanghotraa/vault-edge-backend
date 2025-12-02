@@ -10,12 +10,31 @@ namespace VaultEdge.Domain.Errors
                 "User.EmailAlreadyInUse",
                 "The specified email is already in use");
 
+            public static readonly Error NoneFound = new(
+                "Users.NotFound",
+                $"No users were not found.");
+
             public static readonly Func<Guid, Error> NotFound = id => new Error(
                 "User.NotFound",
                 $"The member with the identifier {id} was not found.");
 
             public static readonly Error InvalidCredentials = new(
                 "User.InvalidCredentials",
+                "The provided credentials are invalid");
+        }
+
+        public static class Account
+        {
+            public static readonly Error NoneFound = new(
+                "Accounts.NotFound",
+                $"No accounts were not found.");
+
+            public static readonly Func<Guid, Error> NotFound = id => new Error(
+                "Account.NotFound",
+                $"The account with the identifier {id} was not found.");
+
+            public static readonly Error InvalidCredentials = new(
+                "Account.InvalidCredentials",
                 "The provided credentials are invalid");
         }
 

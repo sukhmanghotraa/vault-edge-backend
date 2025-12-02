@@ -31,12 +31,17 @@ namespace VaultEdge.Infrastructure.Persistence.Repositories
             return account;
         }
 
-        public async Task DeleteAccountAsync(Guid id)
+        public async Task<Guid> DeleteAccountAsync(Guid id)
         {
             var account = await _context.Accounts.FindAsync(id);
-            if (account == null) return;
+            if(account == null)
+            {
+                throw new Exception("Account not found");
+            }
+
             _context.Accounts.Remove(account);
             await _context.SaveChangesAsync();
+            return account.Id;
         }
 
         public async Task<Account?> DepositAsync(Guid accountId, decimal amount)
@@ -73,7 +78,14 @@ namespace VaultEdge.Infrastructure.Persistence.Repositories
 
         public async Task<Account?> GetByIdAsync(Guid id)
         {
-            return await _context.Accounts.FindAsync(id);
+            var account = await _context.Accounts.FindAsync(id);
+
+            if(account == null)
+            {
+                throw new Exception("Account not found");
+            }
+
+            return account;
         }
 
         public async Task<IEnumerable<Account>> GetAllAsync()

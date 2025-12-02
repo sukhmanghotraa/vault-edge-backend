@@ -1,10 +1,12 @@
 ﻿using MediatR;
 using VaultEdge.Application.Accounts.DTOs;
+using VaultEdge.Domain.Errors;
 using VaultEdge.Domain.Repositories;
+using VaultEdge.Domain.Shared;
 
 namespace VaultEdge.Application.Accounts.Queries.GetAccountById
 {
-    public class GetAccountByIdHandler : IRequestHandler<GetAccountByIdQuery, AccountDto?>
+    public class GetAccountByIdHandler : IRequestHandler<GetAccountByIdQuery, Result<AccountDto?>>
     {
         private readonly IAccountRepository _accountRepository;
 
@@ -13,12 +15,13 @@ namespace VaultEdge.Application.Accounts.Queries.GetAccountById
             _accountRepository = accountRepository;
         }
 
-        public async Task<AccountDto?> Handle(GetAccountByIdQuery request, CancellationToken cancelationToken = default)
+        public async Task<Result<AccountDto?>> Handle(GetAccountByIdQuery request, CancellationToken cancelationToken = default)
         {
             var account = await _accountRepository.GetByIdAsync(request.Id);
+
             if(account == null)
             {
-                return null;
+                return Result.Failure<AccountDto?>(DomainErrors.Account.NotFound(request.Id));
             }
 
             return new AccountDto
