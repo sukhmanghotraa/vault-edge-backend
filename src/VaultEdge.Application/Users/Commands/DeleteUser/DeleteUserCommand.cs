@@ -1,12 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using VaultEdge.Application.Abstractions;
 
 namespace VaultEdge.Application.Users.Commands.DeleteUser
 {
-    internal class DeleteUserCommand
+    public class DeleteUserCommand : ICommand<Guid>
     {
+        public Guid UserId { get; set; }
+
+        public DeleteUserCommand(Guid userId)
+        {
+            UserId = userId;
+        }
     }
 }

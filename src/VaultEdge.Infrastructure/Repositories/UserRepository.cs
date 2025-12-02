@@ -38,14 +38,19 @@ namespace VaultEdge.Infrastructure.Persistence.Repositories
         public async Task<IEnumerable<User>> GetAllAsync() =>
             await _context.Users.ToListAsync();
 
-        public async Task DeleteUserAsync(Guid id)
+        public async Task<Guid> DeleteUserAsync(Guid id)
         {
             var user = await _context.Users.FindAsync(id);
-            if(user != null)
+
+            if (user == null)
             {
-                _context.Users.Remove(user);
-                await _context.SaveChangesAsync();
+                throw new Exception("Account not found");
             }
+            
+            _context.Users.Remove(user);
+            await _context.SaveChangesAsync();
+            
+            return user.Id;
         }
 
         public async Task SaveChangesAsync()

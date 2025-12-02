@@ -12,6 +12,6 @@ namespace VaultEdge.Domain.Repositories
         Task<IEnumerable<User>> GetAllAsync();
         Task<User> CreateUserAsync(User user);
         Task SaveChangesAsync();
-        Task DeleteUserAsync(Guid id);
+        Task<Guid> DeleteUserAsync(Guid id);
     }
 }

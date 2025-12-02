@@ -22,7 +22,12 @@ GET {{VaultEdge.Api_HostAddress}}/api/users
 ###
 
 GET {{VaultEdge.Api_HostAddress}}/api/users/55967870-3f95-4b04-a9e5-e401d0e878ab
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI1NTk2Nzg3MC0zZjk1LTRiMDQtYTllNS1lNDAxZDBlODc4YWIiLCJlbWFpbCI6Iml2YW4uc21pdGhAZXhhbXBsZS5jb20iLCJleHAiOjE3NjM4NTEwMDUsImlzcyI6IlZhdWx0RWRnZSIsImF1ZCI6IlZhdWx0RWRnZVVzZXJzIn0.UYCK2eODypAb35gvUg2OyjfZFWyHBioMkV3NfvVEb5Q
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI1NTk2Nzg3MC0zZjk1LTRiMDQtYTllNS1lNDAxZDBlODc4YWIiLCJlbWFpbCI6Iml2YW4uc21pdGhAZXhhbXBsZS5jb20iLCJleHAiOjE3NjQ1MzAwNTcsImlzcyI6IlZhdWx0RWRnZSIsImF1ZCI6IlZhdWx0RWRnZVVzZXJzIn0.fyv4k6-A6MInx4fNau9lnQRWBWy4DfZ4_AezxfCtTl4
+
+###
+
+DELETE {{VaultEdge.Api_HostAddress}}/api/users/55967870-3f95-4b04-a9e5-e401d0e878ab
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI1NTk2Nzg3MC0zZjk1LTRiMDQtYTllNS1lNDAxZDBlODc4YWIiLCJlbWFpbCI6Iml2YW4uc21pdGhAZXhhbXBsZS5jb20iLCJleHAiOjE3NjQ1MzAwNTcsImlzcyI6IlZhdWx0RWRnZSIsImF1ZCI6IlZhdWx0RWRnZVVzZXJzIn0.fyv4k6-A6MInx4fNau9lnQRWBWy4DfZ4_AezxfCtTl4
 
 ###
 
@@ -39,6 +44,11 @@ Content-Type: application/json
 ###
 
 GET {{VaultEdge.Api_HostAddress}}/api/accounts
+
+###
+
+DELETE {{VaultEdge.Api_HostAddress}}/api/accounts/55967870-3f95-4b04-a9e5-e401d0e878ab
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI1NTk2Nzg3MC0zZjk1LTRiMDQtYTllNS1lNDAxZDBlODc4YWIiLCJlbWFpbCI6Iml2YW4uc21pdGhAZXhhbXBsZS5jb20iLCJleHAiOjE3NjQ1MzAwNTcsImlzcyI6IlZhdWx0RWRnZSIsImF1ZCI6IlZhdWx0RWRnZVVzZXJzIn0.fyv4k6-A6MInx4fNau9lnQRWBWy4DfZ4_AezxfCtTl4
 
 ###
 

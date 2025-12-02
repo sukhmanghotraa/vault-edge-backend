@@ -1,5 +1,4 @@
-﻿
-using MediatR;
+﻿using MediatR;
 using VaultEdge.Application.Users.DTOs;
 using VaultEdge.Domain.Errors;
 using VaultEdge.Domain.Repositories;
@@ -37,7 +36,7 @@ namespace VaultEdge.Application.Users.Queries.GetUserById
                 Address = user.Address
             };
 
-            return Result.Success(foundUser);
+            return Result.Success<UserDto?>(foundUser);
         }
     }
 }

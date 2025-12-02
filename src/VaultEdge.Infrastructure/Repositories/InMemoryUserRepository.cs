@@ -49,10 +49,10 @@ namespace VaultEdge.Infrastructure.Persistence.Repositories
             return Task.CompletedTask;
         }
 
-        public Task DeleteUserAsync(Guid id)
+        public Task<Guid> DeleteUserAsync(Guid id)
         {
             _users.TryRemove(id, out _);
-            return Task.CompletedTask;
+            return Task.FromResult(id);
         }
     }
 }

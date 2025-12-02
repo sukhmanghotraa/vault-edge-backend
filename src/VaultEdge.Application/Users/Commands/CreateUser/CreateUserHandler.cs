@@ -1,5 +1,6 @@
 ﻿using VaultEdge.Application.Abstractions;
 using VaultEdge.Domain.Entities;
+using VaultEdge.Domain.Errors;
 using VaultEdge.Domain.Repositories;
 using VaultEdge.Domain.Shared;
 
@@ -18,7 +19,10 @@ namespace VaultEdge.Application.Users.Commands.CreateUser
         {
             var existingUser = await _userRepository.GetByEmailAsync(request.Email, cancellationToken);
             if (existingUser != null)
-                throw new InvalidOperationException("A user with this email already exists.");
+            {
+                return Result.Failure<Guid>(
+                    DomainErrors.User.EmailAlreadyInUse);
+            }
 
             var newUser = new User(
                 request.FirstName,

@@ -31,10 +31,10 @@ namespace VaultEdge.Infrastructure.Persistence.Repositories
             return Task.FromResult(_accounts.Values.AsEnumerable());
         }
 
-        public Task DeleteAccountAsync(Guid id)
+        public Task<Guid> DeleteAccountAsync(Guid id)
         {
             _accounts.TryRemove(id, out _);
-            return Task.CompletedTask;
+            return Task.FromResult(id);
         }
 
         public Task SaveChangesAsync()
