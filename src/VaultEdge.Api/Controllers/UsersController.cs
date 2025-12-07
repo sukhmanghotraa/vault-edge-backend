@@ -54,6 +54,7 @@ namespace VaultEdge.Api.Controllers
             return Ok(result);
         }
 
+        [Authorize]
         [HttpDelete("{userId:guid}")]
         public async Task<IActionResult> DeleteUserById(Guid userId)
         {
