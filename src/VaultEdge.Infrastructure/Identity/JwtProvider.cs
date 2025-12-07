@@ -36,7 +36,7 @@ namespace VaultEdge.Infrastructure.Identity
                 _options.Audience,
                 claims,
                 null,
-                DateTime.UtcNow.AddHours(1),
+                DateTime.UtcNow.AddMinutes(5),
                 signingCredentials);
 
             string tokenValue = new JwtSecurityTokenHandler()

@@ -32,6 +32,7 @@ namespace VaultEdge.Api.Controllers
             return Ok(new { AccountId = accountId });
         }
 
+        [Authorize]
         [HttpGet("{accountId:guid}")]
         public async Task<IActionResult> GetAccountById(Guid accountId)
         {
@@ -46,6 +47,7 @@ namespace VaultEdge.Api.Controllers
             return Ok(result);
         }
 
+        [Authorize]
         [HttpDelete("{accountId:guid}")]
         public async Task<IActionResult> DeleteAccountById(Guid accountId)
         {
