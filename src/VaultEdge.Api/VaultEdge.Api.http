@@ -58,3 +58,25 @@ GET {{VaultEdge.Api_HostAddress}}/api/users/login/
 }
 
 ###
+
+POST {{VaultEdge.Api_HostAddress}}/api/auth/signup/
+Content-Type: application/json
+
+{
+  "firstName": "Simon",
+  "lastName": "Ladurner",
+  "email": "simonladurner@gmail.com",
+  "password": "Amiko1234!"
+}
+
+###
+
+POST {{VaultEdge.Api_HostAddress}}/api/auth/signin/
+Content-Type: application/json
+
+{
+  "email": "simonladurner@gmail.com",
+  "password": "Amiko1234!"
+}
+
+###
