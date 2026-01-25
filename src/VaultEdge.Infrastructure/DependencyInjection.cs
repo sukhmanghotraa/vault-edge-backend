@@ -20,7 +20,6 @@ public static class DependencyInjection
 
         services.AddScoped<IAccountRepository, AccountRepository>();
         services.AddScoped<IUserRepository, UserRepository>();
-        services.AddScoped<IJwtProvider, JwtProvider>();
 
         return services;
     }

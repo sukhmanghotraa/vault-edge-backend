@@ -1,7 +1,5 @@
 ﻿using MediatR;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using VaultEdge.Application.Auth.Commands.LoginUser;
 using VaultEdge.Application.Users.Commands.CreateUser;
 using VaultEdge.Application.Users.Commands.DeleteUser;
 using VaultEdge.Application.Users.Queries.GetAllUsers;
@@ -34,7 +32,6 @@ namespace VaultEdge.Api.Controllers
             return Ok(new { UserId = userId });
         }
 
-        [Authorize]
         [HttpGet("{userId:guid}")]
         public async Task<IActionResult> GetUserById(Guid userId)
         {
@@ -54,7 +51,6 @@ namespace VaultEdge.Api.Controllers
             return Ok(result);
         }
 
-        [Authorize]
         [HttpDelete("{userId:guid}")]
         public async Task<IActionResult> DeleteUserById(Guid userId)
         {
@@ -80,21 +76,6 @@ namespace VaultEdge.Api.Controllers
                 return BadRequest(users.Error);
             }
             return Ok(users);
-        }
-
-        [HttpPost("login")]
-        public async Task<IActionResult> LoginUser([FromBody] LoginUserRequest request, CancellationToken cancellationToken)
-        {
-            var command = new LoginUserCommand(request.Email);
-
-            Result<string> tokenResult = await _mediator.Send(command, cancellationToken);
-
-            if (tokenResult == null)
-            {
-                return Unauthorized(tokenResult);
-            }
-
-            return Ok(tokenResult.Value);
         }
     }
 }
