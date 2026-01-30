@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
+using VaultEdge.Application.Authentication;
 
 namespace VaultEdge.Application;
 
@@ -10,6 +11,7 @@ public static class DependencyInjection
         
         services.AddMediatR(configuration => 
             configuration.RegisterServicesFromAssembly(assembly));
+        services.AddScoped<IAuthenticationService, AuthenticationService>();
 
         return services;
     }
