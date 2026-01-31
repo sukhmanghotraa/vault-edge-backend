@@ -1,7 +1,7 @@
 ﻿using MediatR;
 using VaultEdge.Application.Accounts.DTOs;
+using VaultEdge.Application.Repositories;
 using VaultEdge.Domain.Errors;
-using VaultEdge.Domain.Repositories;
 using VaultEdge.Domain.Shared;
 
 namespace VaultEdge.Application.Accounts.Queries.GetAllAccounts
