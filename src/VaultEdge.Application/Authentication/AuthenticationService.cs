@@ -1,4 +1,6 @@
 ﻿using VaultEdge.Application.Common.Interfaces.Authentication;
+using VaultEdge.Application.Repositories;
+using VaultEdge.Domain.Entities;
 
 namespace VaultEdge.Application.Authentication
 {
@@ -6,39 +8,71 @@ namespace VaultEdge.Application.Authentication
     {
 
         private readonly IJwtTokenGenerator _jwtTokenGenerator;
+        private readonly IUserRepository _userRepository;
 
-        public AuthenticationService(IJwtTokenGenerator jwtTokenGenerator)
+        public AuthenticationService(IJwtTokenGenerator jwtTokenGenerator, IUserRepository userRepository)
         {
             _jwtTokenGenerator = jwtTokenGenerator;
+            _userRepository = userRepository;
         }
 
-        public AuthenticationResult Signup(string firstName, string lastName, string email, string password)
+        public AuthenticationResult Signup(string firstName, string lastName, string passwordHash, DateTime dateOfBirth, string taxId, string identificationId, string nationality, string email, string phoneNumber, string address)
         {
             // check if user already exits
+            var existingUserTask = _userRepository.GetByEmailAsync(email, default);
+            var existingUser = existingUserTask.GetAwaiter().GetResult();
+
+            if(existingUser is not null)
+            {
+                throw new Exception("User with given email already exists");
+            }
 
             // Create user (generate unique ID)
 
-            // Create JWT token
-            Guid userId = Guid.NewGuid();
+            var user = new User(
+                 firstName,
+                lastName,
+                passwordHash,
+                dateOfBirth,
+                taxId,
+                identificationId,
+                nationality,
+                email,
+                phoneNumber,
+                address
+            );
 
-            var token = _jwtTokenGenerator.GenerateToken(userId, firstName, lastName, email);
+            _userRepository.AddAsync(user);
+            _userRepository.SaveChangesAsync();
+
+            // Create JWT token
+
+            var token = _jwtTokenGenerator.GenerateToken(user);
 
             return new AuthenticationResult(
-                userId,
-                firstName, 
-                lastName, 
-                email, 
+                user,
                 token);
         }
 
         public AuthenticationResult Signin(string email, string password)
         {
+            var existingUser = _userRepository.GetByEmailAsync(email, default).Result;
+
+            if(existingUser is not User user)
+            {
+                throw new Exception("User with given email does not exist");
+            }
+
+            if(user.PasswordHash != password)
+            {
+                throw new Exception("Invalid password");
+            }
+
+            var token  = _jwtTokenGenerator.GenerateToken(user);
+
             return new AuthenticationResult(
-                Guid.NewGuid(),
-                "firstName",
-                "lastName",
-                email,
-                "token");
+                user,
+                token);
         }
     }
 }

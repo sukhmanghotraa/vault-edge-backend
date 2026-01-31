@@ -6,6 +6,7 @@ namespace VaultEdge.Application.Users.Commands.CreateUser
     {
         public required string FirstName { get; init; }
         public required string LastName { get; init; }
+        public required string PasswordHash { get; init; }
         public required DateTime DateOfBirth { get; init; }
         public required string TaxId { get; init; }
         public required string IdentificationId { get; init; }

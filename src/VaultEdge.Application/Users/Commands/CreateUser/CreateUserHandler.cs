@@ -1,7 +1,7 @@
 ﻿using VaultEdge.Application.Abstractions;
+using VaultEdge.Application.Repositories;
 using VaultEdge.Domain.Entities;
 using VaultEdge.Domain.Errors;
-using VaultEdge.Domain.Repositories;
 using VaultEdge.Domain.Shared;
 
 namespace VaultEdge.Application.Users.Commands.CreateUser
@@ -27,6 +27,7 @@ namespace VaultEdge.Application.Users.Commands.CreateUser
             var newUser = new User(
                 request.FirstName,
                 request.LastName,
+                request.PasswordHash,
                 request.DateOfBirth,
                 request.TaxId,
                 request.IdentificationId,

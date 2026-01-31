@@ -4,13 +4,14 @@ POST {{VaultEdge.Api_HostAddress}}/api/users/
 Content-Type: application/json
 
 {
-  "firstName": "Simon",
+  "firstName": "Chantal",
   "lastName": "Ladurner",
-  "dateOfBirth": "2003-01-25T19:21:28.856Z",
-  "taxId": "SMLD123212",
-  "identificationId": "ID32FW312",
+  "passwordHash": "PasswordHash12324",
+  "dateOfBirth": "2000-01-05T19:21:28.856Z",
+  "taxId": "CHLD123212",
+  "identificationId": "ID35FW333",
   "nationality": "IT",
-  "email": "simonladurner@gmail.com",
+  "email": "chantalladurner@gmail.com",
   "phoneNumber": "2223334444",
   "address": "Rome Str. 1, Rome"
 }
@@ -63,10 +64,16 @@ POST {{VaultEdge.Api_HostAddress}}/api/auth/signup/
 Content-Type: application/json
 
 {
-  "firstName": "Simon",
+  "firstName": "Chantal",
   "lastName": "Ladurner",
-  "email": "simonladurner@gmail.com",
-  "password": "Amiko1234!"
+  "passwordHash": "PasswordHash12324",
+  "dateOfBirth": "2000-01-05T19:21:28.856Z",
+  "taxId": "CHLD123212",
+  "identificationId": "ID35FW333",
+  "nationality": "IT",
+  "email": "chantalladurner@gmail.com",
+  "phoneNumber": "2223334444",
+  "address": "Rome Str. 1, Rome"
 }
 
 ###
@@ -75,8 +82,8 @@ POST {{VaultEdge.Api_HostAddress}}/api/auth/signin/
 Content-Type: application/json
 
 {
-  "email": "simonladurner@gmail.com",
-  "password": "Amiko1234!"
+  "email": "chantalladurner@gmail.com",
+  "password": "PasswordHash12324"
 }
 
 ###
