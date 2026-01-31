@@ -1,3 +1,5 @@
+using Microsoft.AspNetCore.Mvc.Infrastructure;
+using VaultEdge.Api.Errors;
 using VaultEdge.Application;
 using VaultEdge.Infrastructure;
 
@@ -24,6 +26,7 @@ builder.Services.AddCors(options =>
         });
 });
 
+builder.Services.AddSingleton<ProblemDetailsFactory, VaultEdgeProblemDetailsFactory>();
 
 var app = builder.Build();
 
@@ -33,6 +36,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.UseExceptionHandler("/error");
 app.UseCors("AllowVaultEdgeFrontend");
 app.UseHttpsRedirection();
 app.UseAuthentication();
