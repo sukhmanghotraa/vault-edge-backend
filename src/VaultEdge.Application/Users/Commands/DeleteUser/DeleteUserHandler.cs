@@ -1,6 +1,6 @@
 ﻿using VaultEdge.Application.Abstractions;
+using VaultEdge.Application.Repositories;
 using VaultEdge.Domain.Errors;
-using VaultEdge.Domain.Repositories;
 using VaultEdge.Domain.Shared;
 
 namespace VaultEdge.Application.Users.Commands.DeleteUser

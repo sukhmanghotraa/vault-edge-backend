@@ -1,7 +1,7 @@
 ﻿
 using VaultEdge.Domain.Entities;
 
-namespace VaultEdge.Domain.Repositories
+namespace VaultEdge.Application.Repositories
 {
     public interface IUserRepository
     {

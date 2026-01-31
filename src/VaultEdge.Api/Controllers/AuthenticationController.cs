@@ -20,19 +20,26 @@ namespace VaultEdge.Api.Controllers
         public IActionResult Signup(SignupRequest request, CancellationToken cancellationToken)
         {
             var authResult = _authenticationService.Signup(
-                request.FirstName, 
-                request.LastName, 
-                request.Email, 
-                request.Password);
+                request.FirstName,
+                request.LastName,
+                request.PasswordHash,
+                request.DateOfBirth,
+                request.TaxId,
+                request.IdentificationId,
+                request.Nationality,
+                request.Email,
+                request.PhoneNumber,
+                request.Address
+                );
 
             var response = new AuthenticationResponse(
-                authResult.Id,
-                authResult.FirstName,
-                authResult.LastName,
-                authResult.Email,
+                authResult.User.Id,
+                authResult.User.FirstName,
+                authResult.User.LastName,
+                authResult.User.Email,
                 authResult.Token);
 
-            return Ok(authResult);
+            return Ok(response);
         }
 
         [HttpPost("signin")]
@@ -43,13 +50,13 @@ namespace VaultEdge.Api.Controllers
                 request.Password);
 
             var response = new AuthenticationResponse(
-                authResult.Id,
-                authResult.FirstName,
-                authResult.LastName,
-                authResult.Email,
+                authResult.User.Id,
+                authResult.User.FirstName,
+                authResult.User.LastName,
+                authResult.User.Email,
                 authResult.Token);
 
-            return Ok(authResult);
+            return Ok(response);
         }
     }
 }

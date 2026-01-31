@@ -87,7 +87,7 @@ namespace VaultEdge.Domain.Entities
         /// <summary>
         /// Constructor to create a new user
         /// </summary>
-        public User(string firstName, string lastName, DateTime dateOfBirth, string taxId, string identificationId, string nationality, string email, string phoneNumber, string address)
+        public User(string firstName, string lastName, string passwordHash, DateTime dateOfBirth, string taxId, string identificationId, string nationality, string email, string phoneNumber, string address)
         {
             if (string.IsNullOrWhiteSpace(firstName)) throw new ArgumentException("First name is required");
             if (string.IsNullOrWhiteSpace(lastName)) throw new ArgumentException("Email is requred");
@@ -102,6 +102,7 @@ namespace VaultEdge.Domain.Entities
             CustomerId = Guid.NewGuid();
             FirstName = firstName;
             LastName = lastName;
+            PasswordHash = passwordHash;
             DateOfBirth = dateOfBirth;
             TaxId = taxId;
             IdentificationId = identificationId;

@@ -1,8 +1,7 @@
 ﻿using MediatR;
-using System.Collections.Generic;
+using VaultEdge.Application.Repositories;
 using VaultEdge.Application.Users.DTOs;
 using VaultEdge.Domain.Errors;
-using VaultEdge.Domain.Repositories;
 using VaultEdge.Domain.Shared;
 
 namespace VaultEdge.Application.Users.Queries.GetAllUsers
