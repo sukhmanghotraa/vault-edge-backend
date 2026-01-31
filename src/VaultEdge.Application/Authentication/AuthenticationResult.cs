@@ -1,9 +1,8 @@
-﻿namespace VaultEdge.Application.Authentication
+﻿using VaultEdge.Domain.Entities;
+
+namespace VaultEdge.Application.Authentication
 {
     public record AuthenticationResult(
-        Guid Id,
-        string FirstName,
-        string LastName,
-        string Email,
+        User User,
         string Token);
 }

@@ -1,7 +1,9 @@
-﻿namespace VaultEdge.Application.Common.Interfaces.Authentication
+﻿using VaultEdge.Domain.Entities;
+
+namespace VaultEdge.Application.Common.Interfaces.Authentication
 {
     public interface IJwtTokenGenerator
     {
-        string GenerateToken(Guid userId, string firstName, string lastName, string email);
+        string GenerateToken(User user);
     }
 }
