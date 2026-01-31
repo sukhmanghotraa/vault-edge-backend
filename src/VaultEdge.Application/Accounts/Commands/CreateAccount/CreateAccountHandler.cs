@@ -1,6 +1,6 @@
 ﻿using VaultEdge.Application.Abstractions;
+using VaultEdge.Application.Repositories;
 using VaultEdge.Domain.Entities;
-using VaultEdge.Domain.Repositories;
 using VaultEdge.Domain.Shared;
 
 namespace VaultEdge.Application.Accounts.Commands.CreateAccount

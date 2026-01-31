@@ -5,7 +5,6 @@ using VaultEdge.Application.Abstractions;
 using VaultEdge.Application.Common.Interfaces.Authentication;
 using VaultEdge.Application.Common.Interfaces.Services;
 using VaultEdge.Application.Repositories;
-using VaultEdge.Domain.Repositories;
 using VaultEdge.Infrastructure.Identity;
 using VaultEdge.Infrastructure.Persistence;
 using VaultEdge.Infrastructure.Persistence.Repositories;
