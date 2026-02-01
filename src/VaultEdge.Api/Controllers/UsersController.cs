@@ -4,13 +4,11 @@ using VaultEdge.Application.Users.Commands.CreateUser;
 using VaultEdge.Application.Users.Commands.DeleteUser;
 using VaultEdge.Application.Users.Queries.GetAllUsers;
 using VaultEdge.Application.Users.Queries.GetUserById;
-using VaultEdge.Domain.Shared;
 
 namespace VaultEdge.Api.Controllers
 {
-    [ApiController]
     [Route("api/[controller]")]
-    public class UsersController : ControllerBase
+    public class UsersController : ApiController
     {
         private readonly IMediator _mediator;
 
@@ -22,14 +20,12 @@ namespace VaultEdge.Api.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateUser([FromBody] CreateUserCommand command)
         {
-            var userId = await _mediator.Send(command); 
-
-            if (!userId.IsSuccess)
-            {
-                return BadRequest(userId.Error);
-            }
-
-            return Ok(new { UserId = userId });
+            var result = await _mediator.Send(command); 
+        
+            return result.Match(
+                userId => CreatedAtAction(nameof(GetUserById), new { userId = userId }, userId),
+                _ => Problem(statusCode: StatusCodes.Status409Conflict, title: "User already exit.")
+            );
         }
 
         [HttpGet("{userId:guid}")]
@@ -43,12 +39,10 @@ namespace VaultEdge.Api.Controllers
             var query = new GetUserByIdQuery(userId);
             var result = await _mediator.Send(query);
 
-            if (!result.IsSuccess)
-            {
-                return BadRequest(result.Error);
-            }
-
-            return Ok(result);
+            return result.Match(
+                user => Ok(user),
+                _ => Problem(statusCode: StatusCodes.Status404NotFound, title: "User not found.")
+            );
         }
 
         [HttpDelete("{userId:guid}")]
@@ -57,12 +51,10 @@ namespace VaultEdge.Api.Controllers
             var query = new DeleteUserCommand(userId);
             var result = await _mediator.Send(query);
 
-            if (!result.IsSuccess)
-            {
-                return BadRequest(result.Error);
-            }
-
-            return Ok(result);
+            return result.Match(
+                deletedUserId => Ok(deletedUserId),
+                _ => Problem(statusCode: StatusCodes.Status404NotFound, title: "User not found.")
+            );
         }
 
         [HttpGet]
@@ -71,11 +63,10 @@ namespace VaultEdge.Api.Controllers
             var query = new GetAllUsersQuery();
             var users = await _mediator.Send(query);
 
-            if (!users.IsSuccess)
-            {
-                return BadRequest(users.Error);
-            }
-            return Ok(users);
+            return users.Match(
+                userList => Ok(userList),
+                _ => Problem(statusCode: StatusCodes.Status404NotFound, title: "No users found.")
+            );
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using VaultEdge.Application.Authentication;
+using VaultEdge.Application.Common.Errors;
 
 namespace VaultEdge.Application;
 

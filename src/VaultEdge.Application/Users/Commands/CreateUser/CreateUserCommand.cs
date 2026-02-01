@@ -2,7 +2,7 @@
 
 namespace VaultEdge.Application.Users.Commands.CreateUser
 {
-    public class CreateUserCommand : ICommand<Guid>
+    public record CreateUserCommand : ICommand<Guid>
     {
         public required string FirstName { get; init; }
         public required string LastName { get; init; }

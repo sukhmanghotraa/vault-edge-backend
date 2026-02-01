@@ -1,10 +1,5 @@
-﻿
-using MediatR;
+﻿using VaultEdge.Application.Abstractions;
 using VaultEdge.Application.Users.DTOs;
-using VaultEdge.Domain.Shared;
 
-namespace VaultEdge.Application.Users.Queries.GetAllUsers
-{
-    public class GetAllUsersQuery : IRequest<Result<IEnumerable<UserDto>>> { }
-}
-
+namespace VaultEdge.Application.Users.Queries.GetAllUsers;
+public record GetAllUsersQuery : IQuery<List<UserDto>>;

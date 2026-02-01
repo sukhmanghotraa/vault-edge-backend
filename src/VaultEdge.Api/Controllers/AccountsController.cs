@@ -1,5 +1,4 @@
 ﻿using MediatR;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using VaultEdge.Application.Accounts.Commands.CreateAccount;
 using VaultEdge.Application.Accounts.Commands.DeleteAccount;
@@ -8,9 +7,8 @@ using VaultEdge.Application.Accounts.Queries.GetAllAccounts;
 
 namespace VaultEdge.Api.Controllers
 {
-    [ApiController]
     [Route("api/[controller]")]
-    public class AccountsController : ControllerBase
+    public class AccountsController : ApiController
     {
         private readonly IMediator _mediator;
 
@@ -22,14 +20,12 @@ namespace VaultEdge.Api.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateAccount([FromBody] CreateAccountCommand command)
         {
-            var accountId = await _mediator.Send(command);
+            var result = await _mediator.Send(command);
 
-            if(!accountId.IsSuccess)
-            {
-                return BadRequest(accountId.Error);
-            }
-
-            return Ok(new { AccountId = accountId });
+            return result.Match(
+                accountId => CreatedAtAction(nameof(GetAccountById), new { accountId }, accountId),
+                _ => Problem(statusCode: StatusCodes.Status409Conflict, title: "Account already exit.")
+            );
         }
 
         [HttpGet("{accountId:guid}")]
@@ -38,12 +34,10 @@ namespace VaultEdge.Api.Controllers
             var query = new GetAccountByIdQuery(accountId);
             var result = await _mediator.Send(query);
 
-            if (!result.IsSuccess)
-            {
-                return BadRequest(result.Error);
-            }
-
-            return Ok(result);
+            return result.Match(
+                account => Ok(account),
+                _ => Problem(statusCode: StatusCodes.Status404NotFound, title: "Account not found.")
+            );
         }
 
         [HttpDelete("{accountId:guid}")]
@@ -52,12 +46,10 @@ namespace VaultEdge.Api.Controllers
             var query = new DeleteAccountCommand(accountId);
             var result = await _mediator.Send(query);
 
-            if (!result.IsSuccess)
-            {
-                return BadRequest(result.Error);
-            }
-
-            return Ok(result);
+            return result.Match(
+                deletedAccountId => Ok(deletedAccountId),
+                _ => Problem(statusCode: StatusCodes.Status404NotFound, title: "Account not found.")
+            );
         }
 
         [HttpGet]
@@ -66,12 +58,10 @@ namespace VaultEdge.Api.Controllers
             var query = new GetAllAccountsQuery();
             var accounts = await _mediator.Send(query);
 
-            if (!accounts.IsSuccess)
-            {
-                return BadRequest(accounts.Error);
-            }
-
-            return Ok(accounts);
+            return accounts.Match(
+                accountList => Ok(accountList),
+                _ => Problem(statusCode: StatusCodes.Status404NotFound, title: "No accounts found.")
+            );
         }
     }
 }

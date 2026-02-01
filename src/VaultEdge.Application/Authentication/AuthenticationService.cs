@@ -1,5 +1,7 @@
-﻿using VaultEdge.Application.Common.Interfaces.Authentication;
+﻿using ErrorOr;
+using VaultEdge.Application.Common.Interfaces.Authentication;
 using VaultEdge.Application.Repositories;
+using VaultEdge.Domain.Common.Errors;
 using VaultEdge.Domain.Entities;
 
 namespace VaultEdge.Application.Authentication
@@ -16,18 +18,15 @@ namespace VaultEdge.Application.Authentication
             _userRepository = userRepository;
         }
 
-        public AuthenticationResult Signup(string firstName, string lastName, string passwordHash, DateTime dateOfBirth, string taxId, string identificationId, string nationality, string email, string phoneNumber, string address)
+        public ErrorOr<AuthenticationResult> Signup(string firstName, string lastName, string passwordHash, DateTime dateOfBirth, string taxId, string identificationId, string nationality, string email, string phoneNumber, string address)
         {
-            // check if user already exits
             var existingUserTask = _userRepository.GetByEmailAsync(email, default);
             var existingUser = existingUserTask.GetAwaiter().GetResult();
 
             if(existingUser is not null)
             {
-                throw new Exception("User with given email already exists");
+                return UserErrors.User.EmailAlreadyInUse;
             }
-
-            // Create user (generate unique ID)
 
             var user = new User(
                  firstName,
@@ -45,8 +44,6 @@ namespace VaultEdge.Application.Authentication
             _userRepository.AddAsync(user);
             _userRepository.SaveChangesAsync();
 
-            // Create JWT token
-
             var token = _jwtTokenGenerator.GenerateToken(user);
 
             return new AuthenticationResult(
@@ -54,18 +51,18 @@ namespace VaultEdge.Application.Authentication
                 token);
         }
 
-        public AuthenticationResult Signin(string email, string password)
+        public ErrorOr<AuthenticationResult> Signin(string email, string password)
         {
             var existingUser = _userRepository.GetByEmailAsync(email, default).Result;
 
             if(existingUser is not User user)
             {
-                throw new Exception("User with given email does not exist");
+                return AuthenticationErrors.Authentication.InvalidCredentials;
             }
 
             if(user.PasswordHash != password)
             {
-                throw new Exception("Invalid password");
+                return new[] { AuthenticationErrors.Authentication.InvalidCredentials };
             }
 
             var token  = _jwtTokenGenerator.GenerateToken(user);

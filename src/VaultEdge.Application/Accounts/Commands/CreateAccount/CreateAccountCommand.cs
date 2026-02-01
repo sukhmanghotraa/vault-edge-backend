@@ -3,12 +3,12 @@ using VaultEdge.Domain.Entities;
 
 namespace VaultEdge.Application.Accounts.Commands.CreateAccount
 {
-    public class CreateAccountCommand : ICommand<Guid>
+    public record CreateAccountCommand : ICommand<Guid>
     {
-        public required Guid UserId { get; set; }
-        public decimal Balance { get; set; }
-        public required AccountType AccountType { get; set; }
-        public required string AccountNumber { get; set; }
+        public required Guid UserId { get; init; }
+        public decimal Balance { get; init; }
+        public required AccountType AccountType { get; init; }
+        public required string AccountNumber { get; init; }
 
     }
 }

@@ -1,12 +1,13 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using ErrorOr;
+using Microsoft.AspNetCore.Mvc;
 using VaultEdge.Api.Authentication;
 using VaultEdge.Application.Authentication;
+using VaultEdge.Domain.Common.Errors;
 
 namespace VaultEdge.Api.Controllers
 {
-    [ApiController]
     [Route("api/auth")]
-    public class AuthenticationController : ControllerBase
+    public class AuthenticationController : ApiController
     {
         private readonly IAuthenticationService _authenticationService;
 
@@ -19,7 +20,7 @@ namespace VaultEdge.Api.Controllers
         [HttpPost("signup")]
         public IActionResult Signup(SignupRequest request, CancellationToken cancellationToken)
         {
-            var authResult = _authenticationService.Signup(
+            ErrorOr<AuthenticationResult> authResult = _authenticationService.Signup(
                 request.FirstName,
                 request.LastName,
                 request.PasswordHash,
@@ -32,31 +33,41 @@ namespace VaultEdge.Api.Controllers
                 request.Address
                 );
 
-            var response = new AuthenticationResponse(
-                authResult.User.Id,
-                authResult.User.FirstName,
-                authResult.User.LastName,
-                authResult.User.Email,
-                authResult.Token);
-
-            return Ok(response);
+            return authResult.Match(
+                authResult => Ok(CreateAuthenticationResponse(authResult)),
+                errors => Problem(errors)
+            );
         }
 
         [HttpPost("signin")]
         public IActionResult Signin(SigninRequest request, CancellationToken cancellationToken)
         {
-            var authResult = _authenticationService.Signin(
+            ErrorOr<AuthenticationResult> authResult = _authenticationService.Signin(
                 request.Email, 
                 request.Password);
 
-            var response = new AuthenticationResponse(
+            if(authResult.IsError && authResult.FirstError == AuthenticationErrors.Authentication.InvalidCredentials)
+            {
+                return Problem(
+                    statusCode: StatusCodes.Status401Unauthorized,
+                    title: authResult.FirstError.Description
+                );
+            }
+
+            return authResult.Match(
+                authResult => Ok(CreateAuthenticationResponse(authResult)),
+                errors => Problem(errors)
+            );
+        }
+
+        private static AuthenticationResponse CreateAuthenticationResponse(AuthenticationResult authResult)
+        {
+            return new AuthenticationResponse(
                 authResult.User.Id,
                 authResult.User.FirstName,
                 authResult.User.LastName,
                 authResult.User.Email,
                 authResult.Token);
-
-            return Ok(response);
         }
     }
 }

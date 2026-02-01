@@ -1,11 +1,11 @@
-﻿using MediatR;
-using VaultEdge.Domain.Shared;
+﻿using ErrorOr;
+using MediatR;
 
 namespace VaultEdge.Application.Abstractions;
-public interface ICommand : IRequest<Result>
+public interface ICommand: IRequest<ErrorOr<Unit>>
 {
 }
 
-public interface ICommand<TResponse> : IRequest<Result<TResponse>>
+public interface ICommand<TResponse> : IRequest<ErrorOr<TResponse>>
 {
 }

@@ -1,12 +1,12 @@
-﻿using MediatR;
+﻿using ErrorOr;
+using VaultEdge.Application.Abstractions;
 using VaultEdge.Application.Accounts.DTOs;
 using VaultEdge.Application.Repositories;
-using VaultEdge.Domain.Errors;
-using VaultEdge.Domain.Shared;
+using VaultEdge.Domain.Common.Errors;
 
 namespace VaultEdge.Application.Accounts.Queries.GetAllAccounts
 {
-    public class GetAllAccountsHandler : IRequestHandler<GetAllAccountsQuery, Result<IEnumerable<AccountDto>>>
+    public class GetAllAccountsHandler : IQueryHandler<GetAllAccountsQuery, List<AccountDto>>
     {
         private readonly IAccountRepository _accountRepository;
 
@@ -15,13 +15,12 @@ namespace VaultEdge.Application.Accounts.Queries.GetAllAccounts
             _accountRepository = accountRepository;
         }
 
-        public async Task<Result<IEnumerable<AccountDto>>> Handle(GetAllAccountsQuery request, CancellationToken cancellationToken = default)
+        public async Task<ErrorOr<List<AccountDto>>> Handle(GetAllAccountsQuery request, CancellationToken cancellationToken = default)
         {
             var accounts = await _accountRepository.GetAllAsync();
             if (accounts == null)
             {
-                return Result.Failure<IEnumerable<AccountDto>>(
-                    DomainErrors.Account.NoneFound);
+                return AccountErrors.Account.NoneFound;
             }
 
             var accountsCopy = accounts.Select(account => new AccountDto
@@ -34,7 +33,7 @@ namespace VaultEdge.Application.Accounts.Queries.GetAllAccounts
                 CreatedAt = account.CreatedAt
             });
 
-            return Result.Success<IEnumerable<AccountDto>>(accountsCopy);
+            return accountsCopy.ToList();
         }
     }
 }

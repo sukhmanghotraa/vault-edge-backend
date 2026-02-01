@@ -1,8 +1,8 @@
-﻿using MediatR;
-using VaultEdge.Domain.Shared;
+﻿using ErrorOr;
+using MediatR;
 
 namespace VaultEdge.Application.Abstractions;
 
-public interface IQuery<TResponse> : IRequest<Result<TResponse>>
+public interface IQuery<TResponse>: IRequest<ErrorOr<TResponse>>
 {
 }

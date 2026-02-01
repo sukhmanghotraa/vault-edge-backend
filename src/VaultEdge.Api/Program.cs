@@ -1,5 +1,5 @@
-using Microsoft.AspNetCore.Mvc.Infrastructure;
-using VaultEdge.Api.Errors;
+using ErrorOr;
+using VaultEdge.Api.Http;
 using VaultEdge.Application;
 using VaultEdge.Infrastructure;
 
@@ -26,7 +26,18 @@ builder.Services.AddCors(options =>
         });
 });
 
-builder.Services.AddSingleton<ProblemDetailsFactory, VaultEdgeProblemDetailsFactory>();
+builder.Services.AddProblemDetails(options =>
+{
+    options.CustomizeProblemDetails = context =>
+    {
+        var errors = context.HttpContext.Items[HttpContextItemKeys.Errors] as List<Error>;
+        if (errors is not null)
+        {
+            context.ProblemDetails.Extensions.Add("errorCodes", errors.Select(e => e.Code));
+        }
+    };
+});
+//builder.Services.AddSingleton<ProblemDetailsFactory, VaultEdgeProblemDetailsFactory>();
 
 var app = builder.Build();
 
@@ -36,7 +47,31 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseExceptionHandler("/error");
+//app.UseExceptionHandler(errorApp =>
+//{
+//    errorApp.Run(async (context) =>
+//    {
+//        var exception = context.Features.Get<IExceptionHandlerFeature>()?.Error;
+
+//        var (statusCode, message) = exception switch
+//        {
+//            IServiceException serviceException => ((int)serviceException.StatusCode, serviceException.ErrorMessage),
+//            _ => (StatusCodes.Status500InternalServerError, "An unexpected error occurred.")
+//        };
+
+//        context.Response.StatusCode = statusCode;
+//        context.Response.ContentType = "application/json";
+//        await context.Response.WriteAsJsonAsync(new ProblemDetails
+//        {
+//            Status = statusCode,
+//            Title = message
+//        });
+//    });
+//});
+
+app.UseExceptionHandler();
+app.UseStatusCodePages();
+
 app.UseCors("AllowVaultEdgeFrontend");
 app.UseHttpsRedirection();
 app.UseAuthentication();
