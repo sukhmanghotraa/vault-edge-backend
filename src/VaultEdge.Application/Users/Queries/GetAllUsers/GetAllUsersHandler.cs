@@ -1,12 +1,12 @@
-﻿using MediatR;
+﻿using ErrorOr;
+using VaultEdge.Application.Abstractions;
 using VaultEdge.Application.Repositories;
 using VaultEdge.Application.Users.DTOs;
-using VaultEdge.Domain.Errors;
-using VaultEdge.Domain.Shared;
+using VaultEdge.Domain.Common.Errors;
 
 namespace VaultEdge.Application.Users.Queries.GetAllUsers
 {
-    public class GetAllUsersHandler : IRequestHandler<GetAllUsersQuery, Result<IEnumerable<UserDto>>>
+    public class GetAllUsersHandler : IQueryHandler<GetAllUsersQuery, List<UserDto>>
     {
         private readonly IUserRepository _userRepository;
 
@@ -15,13 +15,12 @@ namespace VaultEdge.Application.Users.Queries.GetAllUsers
             _userRepository = userRepository;
         }
 
-        public async Task<Result<IEnumerable<UserDto>>> Handle(GetAllUsersQuery request, CancellationToken cancellationToken = default)
+        public async Task<ErrorOr<List<UserDto>>> Handle(GetAllUsersQuery request, CancellationToken cancellationToken = default)
         {
             var users = await _userRepository.GetAllAsync();
             if (users == null)
             {
-                return Result.Failure<IEnumerable<UserDto>>(
-                    DomainErrors.User.NoneFound);
+                return UserErrors.User.NoneFound;
             }
 
             var usersCopy =  users.Select(user => new UserDto
@@ -37,7 +36,7 @@ namespace VaultEdge.Application.Users.Queries.GetAllUsers
                 Address = user.Address
             });
 
-            return Result.Success<IEnumerable<UserDto>>(usersCopy);
+            return usersCopy.ToList();
         }
     }
 }

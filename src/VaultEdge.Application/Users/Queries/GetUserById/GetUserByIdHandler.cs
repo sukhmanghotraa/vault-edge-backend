@@ -1,12 +1,12 @@
-﻿using MediatR;
+﻿using ErrorOr;
+using VaultEdge.Application.Abstractions;
 using VaultEdge.Application.Repositories;
 using VaultEdge.Application.Users.DTOs;
-using VaultEdge.Domain.Errors;
-using VaultEdge.Domain.Shared;
+using VaultEdge.Domain.Common.Errors;
 
 namespace VaultEdge.Application.Users.Queries.GetUserById
 {
-    public class GetUserByIdHandler : IRequestHandler<GetUserByIdQuery, Result<UserDto?>>
+    public class GetUserByIdHandler : IQueryHandler<GetUserByIdQuery, UserDto>
     {
         private readonly IUserRepository _userRepository;
 
@@ -15,12 +15,11 @@ namespace VaultEdge.Application.Users.Queries.GetUserById
             _userRepository = userRepository;
         }
 
-        public async Task<Result<UserDto?>> Handle(GetUserByIdQuery request, CancellationToken cancelationToken = default)
+        public async Task<ErrorOr<UserDto>> Handle(GetUserByIdQuery request, CancellationToken cancelationToken = default)
         {
-            var user = await _userRepository.GetByIdAsync(request.Id);
-            if (user == null) {
-                return Result.Failure<UserDto?>(
-                    DomainErrors.User.NotFound(request.Id));
+            var user = await _userRepository.GetByIdAsync(request.UserId);
+            if (user is null) {
+                return UserErrors.User.NotFound(request.UserId);
             }
 
             var foundUser = new UserDto
@@ -36,7 +35,7 @@ namespace VaultEdge.Application.Users.Queries.GetUserById
                 Address = user.Address
             };
 
-            return Result.Success<UserDto?>(foundUser);
+            return foundUser;
         }
     }
 }

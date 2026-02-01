@@ -1,8 +1,8 @@
-﻿using VaultEdge.Application.Abstractions;
+﻿using ErrorOr;
+using VaultEdge.Application.Abstractions;
 using VaultEdge.Application.Repositories;
+using VaultEdge.Domain.Common.Errors;
 using VaultEdge.Domain.Entities;
-using VaultEdge.Domain.Errors;
-using VaultEdge.Domain.Shared;
 
 namespace VaultEdge.Application.Users.Commands.CreateUser
 {
@@ -15,13 +15,12 @@ namespace VaultEdge.Application.Users.Commands.CreateUser
             _userRepository = userRepository;
         }
 
-        public async Task<Result<Guid>> Handle(CreateUserCommand request, CancellationToken cancellationToken)
+        public async Task<ErrorOr<Guid>> Handle(CreateUserCommand request, CancellationToken cancellationToken)
         {
             var existingUser = await _userRepository.GetByEmailAsync(request.Email, cancellationToken);
             if (existingUser != null)
             {
-                return Result.Failure<Guid>(
-                    DomainErrors.User.EmailAlreadyInUse);
+                return UserErrors.User.EmailAlreadyInUse;
             }
 
             var newUser = new User(
@@ -39,7 +38,7 @@ namespace VaultEdge.Application.Users.Commands.CreateUser
 
             await _userRepository.AddAsync(newUser);
             await _userRepository.SaveChangesAsync();
-            return Result.Success(newUser.Id);
+            return newUser.Id;
         }
     }
 }

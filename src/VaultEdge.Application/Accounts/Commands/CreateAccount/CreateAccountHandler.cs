@@ -1,7 +1,7 @@
-﻿using VaultEdge.Application.Abstractions;
+﻿using ErrorOr;
+using VaultEdge.Application.Abstractions;
 using VaultEdge.Application.Repositories;
 using VaultEdge.Domain.Entities;
-using VaultEdge.Domain.Shared;
 
 namespace VaultEdge.Application.Accounts.Commands.CreateAccount
 {
@@ -14,7 +14,7 @@ namespace VaultEdge.Application.Accounts.Commands.CreateAccount
             _accountRepository = accountRepository;
         }
 
-        public async Task<Result<Guid>> Handle(CreateAccountCommand request, CancellationToken cancellationToken)
+        public async Task<ErrorOr<Guid>> Handle(CreateAccountCommand request, CancellationToken cancellationToken)
         {
             var newAccount = new Account(
                 request.AccountNumber,
@@ -24,7 +24,7 @@ namespace VaultEdge.Application.Accounts.Commands.CreateAccount
 
             await _accountRepository.AddAsync(newAccount);
             await _accountRepository.SaveChangesAsync();
-            return Result.Success(newAccount.Id);
+            return newAccount.Id;
         }
     }
 }

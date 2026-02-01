@@ -1,7 +1,7 @@
-﻿using VaultEdge.Application.Abstractions;
+﻿using ErrorOr;
+using VaultEdge.Application.Abstractions;
 using VaultEdge.Application.Repositories;
-using VaultEdge.Domain.Errors;
-using VaultEdge.Domain.Shared;
+using VaultEdge.Domain.Common.Errors;
 
 namespace VaultEdge.Application.Users.Commands.DeleteUser
 {
@@ -14,18 +14,17 @@ namespace VaultEdge.Application.Users.Commands.DeleteUser
             _userRepository = userRepository;
         }
 
-        public async Task<Result<Guid>> Handle(DeleteUserCommand request, CancellationToken cancellationToken)
+        public async Task<ErrorOr<Guid>> Handle(DeleteUserCommand request, CancellationToken cancellationToken)
         {
             var user = await _userRepository.GetByIdAsync(request.UserId);
             if(user == null)
             {
-                return Result.Failure<Guid>(
-                    DomainErrors.User.NotFound(request.UserId));
+                return UserErrors.User.NotFound(request.UserId);
             }
 
             await _userRepository.DeleteUserAsync(user.Id);
             await _userRepository.SaveChangesAsync();
-            return Result.Success(user.Id);
+            return user.Id;
         }
     }
 }

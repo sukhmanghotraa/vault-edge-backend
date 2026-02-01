@@ -1,15 +1,16 @@
-﻿using MediatR;
-using VaultEdge.Domain.Shared;
+﻿using ErrorOr;
+using MediatR;
 
 namespace VaultEdge.Application.Abstractions;
 
-public interface ICommandHandler<TCommand> : IRequestHandler<TCommand, Result>
+public interface ICommandHandler<TCommand>
+    : IRequestHandler<TCommand, ErrorOr<Unit>>
     where TCommand : ICommand
-{
+{ 
 }
 
-public interface ICommandHandler<TCommand, TResponse>
-    : IRequestHandler<TCommand, Result<TResponse>>
+public interface ICommandHandler<TCommand, TResponse> 
+    : IRequestHandler<TCommand, ErrorOr<TResponse>>
     where TCommand : ICommand<TResponse>
 {
 }

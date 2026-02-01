@@ -1,7 +1,7 @@
-﻿using VaultEdge.Application.Abstractions;
+﻿using ErrorOr;
+using VaultEdge.Application.Abstractions;
 using VaultEdge.Application.Repositories;
-using VaultEdge.Domain.Errors;
-using VaultEdge.Domain.Shared;
+using VaultEdge.Domain.Common.Errors;
 
 namespace VaultEdge.Application.Accounts.Commands.DeleteAccount
 {
@@ -14,18 +14,17 @@ namespace VaultEdge.Application.Accounts.Commands.DeleteAccount
             _accountRepository = accountRepository;
         }
 
-        public async Task<Result<Guid>> Handle(DeleteAccountCommand request, CancellationToken cancellationToken)
+        public async Task<ErrorOr<Guid>> Handle(DeleteAccountCommand command, CancellationToken cancellationToken)
         {
-            var account = await _accountRepository.GetByIdAsync(request.AccountId);
+            var account = await _accountRepository.GetByIdAsync(command.AccountId);
             if (account == null)
             {
-                return Result.Failure<Guid>(
-                    DomainErrors.Account.NotFound(request.AccountId));
+                return AccountErrors.Account.NotFound(command.AccountId);
             }
 
             await _accountRepository.DeleteAccountAsync(account.Id);
             await _accountRepository.SaveChangesAsync();
-            return Result.Success(account.Id);
+            return account.Id;
         }
     }
 }

@@ -1,21 +1,18 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using ErrorOr;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.Extensions.Options;
 using System.Diagnostics;
+using VaultEdge.Api.Http;
 
-namespace VaultEdge.Api.Errors
+namespace VaultEdge.Api.Common.Errors
 {
     public class VaultEdgeProblemDetailsFactory : ProblemDetailsFactory
     {
         private readonly ApiBehaviorOptions _options;
         private readonly Action<ProblemDetailsContext>? _configure;
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="VaultEdgeProblemDetailsFactory"/> class.
-        /// </summary>
-        /// <param name="options">The options for API behavior.</param>
-        /// <param name="problemDetailsOptions">The options for customizing problem details.</param>
         public VaultEdgeProblemDetailsFactory(
             IOptions<ApiBehaviorOptions> options,
             IOptions<ProblemDetailsOptions>? problemDetailsOptions = null)
@@ -24,8 +21,6 @@ namespace VaultEdge.Api.Errors
             _configure = problemDetailsOptions?.Value?.CustomizeProblemDetails;
         }
 
-
-        /// <inheritdoc />
         public override ProblemDetails CreateProblemDetails(
             HttpContext httpContext,
             int? statusCode = null,
@@ -50,7 +45,6 @@ namespace VaultEdge.Api.Errors
             return problemDetails;
         }
 
-        /// <inheritdoc />
         public override ValidationProblemDetails CreateValidationProblemDetails(
             HttpContext httpContext,
             ModelStateDictionary modelStateDictionary,
@@ -74,7 +68,6 @@ namespace VaultEdge.Api.Errors
 
             if (title != null)
             {
-                // For validation problem details, don't overwrite the default title with null.
                 problemDetails.Title = title;
             }
 
@@ -101,7 +94,12 @@ namespace VaultEdge.Api.Errors
 
             _configure?.Invoke(new() { HttpContext = httpContext!, ProblemDetails = problemDetails });
 
-            problemDetails.Extensions.Add("customProperty", "customValue");
+            var errors = httpContext?.Items[HttpContextItemKeys.Errors] as List<Error>;
+
+            if(errors is not null)
+            {
+                problemDetails.Extensions.Add("errorCodes", errors.Select(e => e.Code));
+            }
         }
     }
 }
