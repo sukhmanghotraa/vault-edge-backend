@@ -1,7 +1,10 @@
 ﻿using ErrorOr;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using VaultEdge.Api.Authentication;
-using VaultEdge.Application.Authentication;
+using VaultEdge.Application.Authentication.Commands.Signup;
+using VaultEdge.Application.Authentication.Common;
+using VaultEdge.Application.Authentication.Queries.Signin;
 using VaultEdge.Domain.Common.Errors;
 
 namespace VaultEdge.Api.Controllers
@@ -9,18 +12,19 @@ namespace VaultEdge.Api.Controllers
     [Route("api/auth")]
     public class AuthenticationController : ApiController
     {
-        private readonly IAuthenticationService _authenticationService;
+        private readonly IMediator _mediator;
 
 
-        public AuthenticationController(IAuthenticationService authenticationService)
+        public AuthenticationController( IMediator mediator)
         {
-            _authenticationService = authenticationService;
+            _mediator = mediator;
+
         }
 
         [HttpPost("signup")]
-        public IActionResult Signup(SignupRequest request, CancellationToken cancellationToken)
+        public async Task<IActionResult> Signup(SignupRequest request, CancellationToken cancellationToken)
         {
-            ErrorOr<AuthenticationResult> authResult = _authenticationService.Signup(
+            var command = new SignupCommand(
                 request.FirstName,
                 request.LastName,
                 request.PasswordHash,
@@ -30,8 +34,9 @@ namespace VaultEdge.Api.Controllers
                 request.Nationality,
                 request.Email,
                 request.PhoneNumber,
-                request.Address
-                );
+                request.Address);
+
+            ErrorOr<AuthenticationResult> authResult = await _mediator.Send(command);
 
             return authResult.Match(
                 authResult => Ok(CreateAuthenticationResponse(authResult)),
@@ -40,11 +45,13 @@ namespace VaultEdge.Api.Controllers
         }
 
         [HttpPost("signin")]
-        public IActionResult Signin(SigninRequest request, CancellationToken cancellationToken)
+        public async Task<IActionResult> Signin(SigninRequest request, CancellationToken cancellationToken)
         {
-            ErrorOr<AuthenticationResult> authResult = _authenticationService.Signin(
-                request.Email, 
+            var query = new SigninQuery(
+                request.Email,
                 request.Password);
+
+            ErrorOr<AuthenticationResult> authResult = await _mediator.Send(query);
 
             if(authResult.IsError && authResult.FirstError == AuthenticationErrors.Authentication.InvalidCredentials)
             {
