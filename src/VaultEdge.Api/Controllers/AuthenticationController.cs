@@ -1,4 +1,5 @@
 ﻿using ErrorOr;
+using MapsterMapper;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using VaultEdge.Api.Authentication;
@@ -13,33 +14,24 @@ namespace VaultEdge.Api.Controllers
     public class AuthenticationController : ApiController
     {
         private readonly IMediator _mediator;
+        private readonly IMapper _mapper;
 
-
-        public AuthenticationController( IMediator mediator)
+        public AuthenticationController( IMediator mediator, IMapper mapper)
         {
             _mediator = mediator;
+            _mapper = mapper;
 
         }
 
         [HttpPost("signup")]
         public async Task<IActionResult> Signup(SignupRequest request, CancellationToken cancellationToken)
         {
-            var command = new SignupCommand(
-                request.FirstName,
-                request.LastName,
-                request.PasswordHash,
-                request.DateOfBirth,
-                request.TaxId,
-                request.IdentificationId,
-                request.Nationality,
-                request.Email,
-                request.PhoneNumber,
-                request.Address);
+            var command = _mapper.Map<SignupCommand>(request);
 
             ErrorOr<AuthenticationResult> authResult = await _mediator.Send(command);
 
             return authResult.Match(
-                authResult => Ok(CreateAuthenticationResponse(authResult)),
+                authResult => Ok(_mapper.Map<AuthenticationResponse>(authResult)),
                 errors => Problem(errors)
             );
         }
@@ -47,9 +39,7 @@ namespace VaultEdge.Api.Controllers
         [HttpPost("signin")]
         public async Task<IActionResult> Signin(SigninRequest request, CancellationToken cancellationToken)
         {
-            var query = new SigninQuery(
-                request.Email,
-                request.Password);
+            var query = _mapper.Map<SigninQuery>(request);
 
             ErrorOr<AuthenticationResult> authResult = await _mediator.Send(query);
 
@@ -62,19 +52,9 @@ namespace VaultEdge.Api.Controllers
             }
 
             return authResult.Match(
-                authResult => Ok(CreateAuthenticationResponse(authResult)),
+                authResult => Ok(_mapper.Map<AuthenticationResponse>(authResult)),
                 errors => Problem(errors)
             );
-        }
-
-        private static AuthenticationResponse CreateAuthenticationResponse(AuthenticationResult authResult)
-        {
-            return new AuthenticationResponse(
-                authResult.User.Id,
-                authResult.User.FirstName,
-                authResult.User.LastName,
-                authResult.User.Email,
-                authResult.Token);
         }
     }
 }

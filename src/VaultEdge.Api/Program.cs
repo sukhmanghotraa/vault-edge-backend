@@ -1,43 +1,13 @@
-using ErrorOr;
-using VaultEdge.Api.Http;
+using VaultEdge.Api;
 using VaultEdge.Application;
 using VaultEdge.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services
+    .AddPresentation()
     .AddApplication()
     .AddInfrastructure(builder.Configuration);
-
-// Add Controllers & Swagger
-builder.Services.AddControllers();
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
-
-// Cross-Origin Resource Sharing(CORS)
-builder.Services.AddCors(options =>
-{
-    options.AddPolicy("AllowVaultEdgeFrontend",
-        builder =>
-        {
-            builder.WithOrigins("http://localhost:3000")
-                .AllowAnyHeader()
-                .AllowAnyMethod();
-        });
-});
-
-builder.Services.AddProblemDetails(options =>
-{
-    options.CustomizeProblemDetails = context =>
-    {
-        var errors = context.HttpContext.Items[HttpContextItemKeys.Errors] as List<Error>;
-        if (errors is not null)
-        {
-            context.ProblemDetails.Extensions.Add("errorCodes", errors.Select(e => e.Code));
-        }
-    };
-});
-//builder.Services.AddSingleton<ProblemDetailsFactory, VaultEdgeProblemDetailsFactory>();
 
 var app = builder.Build();
 
