@@ -1,6 +1,6 @@
 ﻿using ErrorOr;
-using VaultEdge.Api.Http;
 using Microsoft.AspNetCore.Mvc;
+using VaultEdge.Api.Common.Http;
 
 namespace VaultEdge.Api.Controllers
 {

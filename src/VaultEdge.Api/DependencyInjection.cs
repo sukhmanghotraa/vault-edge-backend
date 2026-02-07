@@ -1,6 +1,6 @@
 ﻿using ErrorOr;
+using VaultEdge.Api.Common.Http;
 using VaultEdge.Api.Common.Mapping;
-using VaultEdge.Api.Http;
 
 namespace VaultEdge.Api;
 
