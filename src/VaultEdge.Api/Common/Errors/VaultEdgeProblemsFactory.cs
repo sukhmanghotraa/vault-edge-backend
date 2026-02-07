@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.Extensions.Options;
 using System.Diagnostics;
-using VaultEdge.Api.Http;
+using VaultEdge.Api.Common.Http;
 
 namespace VaultEdge.Api.Common.Errors
 {

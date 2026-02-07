@@ -1,4 +1,4 @@
-﻿namespace VaultEdge.Api.Http
+﻿namespace VaultEdge.Api.Common.Http
 {
     public static class HttpContextItemKeys
     {
