@@ -5,14 +5,14 @@ using VaultEdge.Application.Authentication.Common;
 namespace VaultEdge.Application.Authentication.Commands.Signup
 {
     public record SignupCommand(
-        string firstName, 
-        string lastName, 
-        string passwordHash, 
-        DateTime dateOfBirth, 
-        string taxId, 
-        string identificationId, 
-        string nationality, 
-        string email, 
-        string phoneNumber, 
-        string address): IRequest<ErrorOr<AuthenticationResult>>;
+        string FirstName, 
+        string LastName, 
+        string PasswordHash, 
+        DateTime DateOfBirth, 
+        string TaxId, 
+        string IdentificationId, 
+        string Nationality, 
+        string Email, 
+        string PhoneNumber, 
+        string Address): IRequest<ErrorOr<AuthenticationResult>>;
 }

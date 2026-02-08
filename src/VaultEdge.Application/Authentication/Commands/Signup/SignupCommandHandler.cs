@@ -22,7 +22,7 @@ namespace VaultEdge.Application.Authentication.Commands.Signup
 
         public async Task<ErrorOr<AuthenticationResult>> Handle(SignupCommand command, CancellationToken cancellationToken)
         {
-            var existingUserTask = _userRepository.GetByEmailAsync(command.email, default);
+            var existingUserTask = _userRepository.GetByEmailAsync(command.Email, default);
             var existingUser = existingUserTask.GetAwaiter().GetResult();
 
             if(existingUser is not null)
@@ -31,16 +31,16 @@ namespace VaultEdge.Application.Authentication.Commands.Signup
             }
 
             var user = new User(
-                command.firstName,
-                command.lastName,
-                command.passwordHash,
-                command.dateOfBirth,
-                command.taxId,
-                command.identificationId,
-                command.nationality,
-                command.email,
-                command.phoneNumber,
-                command.address
+                command.FirstName,
+                command.LastName,
+                command.PasswordHash,
+                command.DateOfBirth,
+                command.TaxId,
+                command.IdentificationId,
+                command.Nationality,
+                command.Email,
+                command.PhoneNumber,
+                command.Address
             );
 
             await _userRepository.AddAsync(user);
