@@ -1,0 +1,6 @@
+@VaultEdge.Api_HostAddress = https://localhost:7298
+
+GET {{VaultEdge.Api_HostAddress}}/api/users
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIyYmE4YTAwOS1lZTdmLTRjMTItYWU4NS0zMTdkM2I4MTllMzciLCJnaXZlbl9uYW1lIjoiQ2hhbnRhbCIsImZhbWlseV9uYW1lIjoiTGFkdXJuZXIiLCJqdGkiOiI4M2Q0OThkNy04YzM4LTQzMDItODk0Yy04ZmYyYmIxMGJlMTYiLCJleHAiOjE3NzA3NTgyMDgsImlzcyI6IlZhdWx0RWRnZSIsImF1ZCI6IlZhdWx0RWRnZVVzZXJzIn0.UDUgkGNVCdRS-e5KwKMGKe0l2Xiax6K3vDE5UtrsAkA
+
+###

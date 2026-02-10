@@ -1,0 +1,4 @@
+@VaultEdge.Api_HostAddress = https://localhost:7298
+
+DELETE {{VaultEdge.Api_HostAddress}}/api/users/A85E00BF-727A-4D57-BFD9-546086607885
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI1NTk2Nzg3MC0zZjk1LTRiMDQtYTllNS1lNDAxZDBlODc4YWIiLCJlbWFpbCI6Iml2YW4uc21pdGhAZXhhbXBsZS5jb20iLCJleHAiOjE3NjQ1MzAwNTcsImlzcyI6IlZhdWx0RWRnZSIsImF1ZCI6IlZhdWx0RWRnZVVzZXJzIn0.fyv4k6-A6MInx4fNau9lnQRWBWy4DfZ4_AezxfCtTl4
