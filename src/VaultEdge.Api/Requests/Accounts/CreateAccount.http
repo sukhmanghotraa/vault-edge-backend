@@ -1,0 +1,11 @@
+@VaultEdge.Api_HostAddress = https://localhost:7298
+
+POST {{VaultEdge.Api_HostAddress}}/api/accounts/
+Content-Type: application/json
+
+{
+  "userId": "851333eb-ed9b-48bf-a449-5d19d0216025",
+  "balance": 23.12,
+  "accountType": 0,
+  "accountNumber": "stringg"
+}

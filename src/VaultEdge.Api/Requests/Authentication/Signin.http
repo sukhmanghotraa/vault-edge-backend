@@ -1,0 +1,11 @@
+@VaultEdge.Api_HostAddress = https://localhost:7298
+
+POST {{VaultEdge.Api_HostAddress}}/api/auth/signin/
+Content-Type: application/json
+
+{
+  "email": "chantalladurner@gmail.com",
+  "password": "PasswordHash12324"
+}
+
+###
