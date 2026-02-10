@@ -1,6 +1,7 @@
 ﻿using ErrorOr;
 using MapsterMapper;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using VaultEdge.Api.Authentication;
 using VaultEdge.Application.Authentication.Commands.Signup;
@@ -11,6 +12,7 @@ using VaultEdge.Domain.Common.Errors;
 namespace VaultEdge.Api.Controllers
 {
     [Route("api/auth")]
+    [AllowAnonymous]
     public class AuthenticationController : ApiController
     {
         private readonly IMediator _mediator;
