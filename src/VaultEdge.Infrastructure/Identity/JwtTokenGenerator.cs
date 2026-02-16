@@ -5,7 +5,7 @@ using System.Security.Claims;
 using System.Text;
 using VaultEdge.Application.Common.Interfaces.Authentication;
 using VaultEdge.Application.Common.Interfaces.Services;
-using VaultEdge.Domain.Entities;
+using VaultEdge.Domain.User;
 
 namespace VaultEdge.Infrastructure.Identity
 {

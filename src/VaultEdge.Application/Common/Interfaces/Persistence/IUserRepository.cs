@@ -1,5 +1,4 @@
-﻿
-using VaultEdge.Domain.Entities;
+﻿using VaultEdge.Domain.User;
 
 namespace VaultEdge.Application.Repositories
 {

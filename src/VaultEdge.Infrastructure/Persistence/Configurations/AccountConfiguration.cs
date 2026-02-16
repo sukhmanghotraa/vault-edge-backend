@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using VaultEdge.Domain.Entities;
+using VaultEdge.Domain.Account;
 
 namespace VaultEdge.Infrastructure.Persistence.Configurations
 {

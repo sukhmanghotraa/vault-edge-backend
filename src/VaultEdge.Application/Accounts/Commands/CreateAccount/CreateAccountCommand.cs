@@ -1,5 +1,5 @@
 ﻿using VaultEdge.Application.Abstractions;
-using VaultEdge.Domain.Entities;
+using VaultEdge.Domain.Account;
 
 namespace VaultEdge.Application.Accounts.Commands.CreateAccount
 {
