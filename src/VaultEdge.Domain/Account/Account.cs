@@ -1,5 +1,4 @@
-﻿
-namespace VaultEdge.Domain.Entities
+﻿namespace VaultEdge.Domain.Account
 {
     public class Account
     {

@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using VaultEdge.Domain.Entities;
+using VaultEdge.Domain.Account;
+using VaultEdge.Domain.User;
 
 namespace VaultEdge.Infrastructure.Persistence
 {

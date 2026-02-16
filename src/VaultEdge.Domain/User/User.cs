@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace VaultEdge.Domain.Entities
+namespace VaultEdge.Domain.User
 {
     public class User
     {

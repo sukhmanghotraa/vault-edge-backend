@@ -1,6 +1,6 @@
 ﻿using System.Collections.Concurrent;
 using VaultEdge.Application.Repositories;
-using VaultEdge.Domain.Entities;
+using VaultEdge.Domain.Account;
 
 namespace VaultEdge.Infrastructure.Persistence.Repositories
 {
