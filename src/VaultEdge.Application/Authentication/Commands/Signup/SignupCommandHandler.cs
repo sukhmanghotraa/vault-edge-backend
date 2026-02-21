@@ -4,7 +4,7 @@ using VaultEdge.Application.Authentication.Common;
 using VaultEdge.Application.Common.Interfaces.Authentication;
 using VaultEdge.Application.Repositories;
 using VaultEdge.Domain.Common.Errors;
-using VaultEdge.Domain.Entities;
+using VaultEdge.Domain.User;
 
 namespace VaultEdge.Application.Authentication.Commands.Signup
 {

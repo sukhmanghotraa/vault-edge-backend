@@ -2,7 +2,7 @@
 using VaultEdge.Application.Abstractions;
 using VaultEdge.Application.Repositories;
 using VaultEdge.Domain.Common.Errors;
-using VaultEdge.Domain.Entities;
+using VaultEdge.Domain.User;
 
 namespace VaultEdge.Application.Users.Commands.CreateUser
 {

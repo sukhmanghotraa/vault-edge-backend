@@ -77,7 +77,7 @@ namespace VaultEdge.Domain.User
         /// <summary>
         /// Bank accounts associated with the user
         /// </summary>
-        public virtual ICollection<Account> Accounts { get; set; } = new List<Account>();
+        public virtual ICollection<Account.Account> Accounts { get; set; } = new List<Account.Account>();
 
         /// <summary>
         /// private constructor for EF Core
@@ -115,7 +115,7 @@ namespace VaultEdge.Domain.User
             Role = UserRole.Customer;
             SecurityStamp = Guid.NewGuid().ToString("N");
             CreatedAt = DateTime.UtcNow;
-            Accounts = new List<Account>();
+            Accounts = new List<Account.Account>();
         }
     }
 
