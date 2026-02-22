@@ -20,7 +20,7 @@ namespace VaultEdge.Infrastructure.Identity
             _jwtSettings = jwtOptions.Value;
         }
 
-        public string GenerateToken(Customer user)
+        public string GenerateToken(Customer user, string securityStamp)
         {
 
             var signingCredentials = new SigningCredentials(
@@ -34,7 +34,8 @@ namespace VaultEdge.Infrastructure.Identity
                 new Claim(JwtRegisteredClaimNames.GivenName, user.FirstName),
                 new Claim(JwtRegisteredClaimNames.FamilyName, user.LastName),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-                new Claim(JwtRegisteredClaimNames.Email, user.Email)
+                new Claim(JwtRegisteredClaimNames.Email, user.Email),
+                new Claim("securityStamp", securityStamp)
             };
 
             var securityToken = new JwtSecurityToken(

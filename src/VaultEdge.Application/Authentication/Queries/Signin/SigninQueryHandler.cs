@@ -38,7 +38,7 @@ namespace VaultEdge.Application.Authentication.Queries.Signin
                 return CustomerErrors.Customer.NotFound(authResult.CustomerId);
             }
 
-            var token  = _jwtTokenGenerator.GenerateToken(customer);
+            var token  = _jwtTokenGenerator.GenerateToken(customer, authResult.SecurityStamp);
 
             return new AuthenticationResult(
                 customer,
