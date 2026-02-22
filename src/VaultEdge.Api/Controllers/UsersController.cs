@@ -1,6 +1,5 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using VaultEdge.Application.Customers.Commands.CreateCustomer;
 using VaultEdge.Application.Customers.Commands.DeleteCustomer;
 using VaultEdge.Application.Customers.Queries.GetAllCustomers;
 using VaultEdge.Application.Customers.Queries.GetCustomerById;
@@ -15,17 +14,6 @@ namespace VaultEdge.Api.Controllers
         public UsersController(IMediator mediator)
         {
             _mediator = mediator;
-        }
-
-        [HttpPost]
-        public async Task<IActionResult> CreateUser([FromBody] CreateCustomerCommand command)
-        {
-            var result = await _mediator.Send(command); 
-        
-            return result.Match(
-                userId => CreatedAtAction(nameof(GetUserById), new { userId = userId }, userId),
-                _ => Problem(statusCode: StatusCodes.Status409Conflict, title: "User already exit.")
-            );
         }
 
         [HttpGet("{userId:guid}")]
