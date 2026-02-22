@@ -3,11 +3,11 @@
     public interface IIdentityService
     {
         Task<IdentityVerificationResult> AuthenticateAsync(string email, string password);
-        Task<IdentityResult> CreateUserAsync(Guid customerUd, string email, string password);
-        Task<IdentityResult> ChangePasswordAsync(Guid customerUd, string currentPassword, string newPassword);
-        Task<IdentityResult> ConfirmEmailAsync(Guid customerUd, string token);
-        Task<bool> IsLockedOutAsync(Guid customerUd);
-        Task<string> GetSecurityStampAsync(Guid customerUd);
+        Task<IdentityResult> CreateUserAsync(Guid customerId, string email, string password);
+        Task<IdentityResult> ChangePasswordAsync(Guid customerId, string currentPassword, string newPassword);
+        Task<IdentityResult> ConfirmEmailAsync(Guid customerId, string token);
+        Task<bool> IsLockedOutAsync(Guid customerId);
+        Task<string> GetSecurityStampAsync(Guid customerId);
     }
 
     public class IdentityVerificationResult
