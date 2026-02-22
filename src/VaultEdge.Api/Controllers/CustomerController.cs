@@ -7,11 +7,11 @@ using VaultEdge.Application.Customers.Queries.GetCustomerById;
 namespace VaultEdge.Api.Controllers
 {
     [Route("api/[controller]")]
-    public class UsersController : ApiController
+    public class CustomerController : ApiController
     {
         private readonly IMediator _mediator;
 
-        public UsersController(IMediator mediator)
+        public CustomerController(IMediator mediator)
         {
             _mediator = mediator;
         }
