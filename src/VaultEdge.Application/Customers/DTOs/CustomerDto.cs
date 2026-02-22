@@ -1,7 +1,7 @@
 ﻿
-namespace VaultEdge.Application.Users.DTOs
+namespace VaultEdge.Application.Customers.DTOs
 {
-    public class UserDto
+    public class CustomerDto
     {
         public Guid Id { get; set; }
         public string FirstName { get; set; } = string.Empty;

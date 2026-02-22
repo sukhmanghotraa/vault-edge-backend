@@ -5,7 +5,7 @@ using System.Security.Claims;
 using System.Text;
 using VaultEdge.Application.Common.Interfaces.Authentication;
 using VaultEdge.Application.Common.Interfaces.Services;
-using VaultEdge.Domain.User;
+using VaultEdge.Domain.Customer;
 
 namespace VaultEdge.Infrastructure.Identity
 {
@@ -20,7 +20,7 @@ namespace VaultEdge.Infrastructure.Identity
             _jwtSettings = jwtOptions.Value;
         }
 
-        public string GenerateToken(User user)
+        public string GenerateToken(Customer user)
         {
 
             var signingCredentials = new SigningCredentials(

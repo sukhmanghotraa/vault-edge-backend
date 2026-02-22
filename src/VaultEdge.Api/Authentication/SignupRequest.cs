@@ -3,7 +3,7 @@
     public record SignupRequest(
          string FirstName,
          string LastName,
-         string PasswordHash,
+         string Password,
          DateTime DateOfBirth,
          string TaxId,
          string IdentificationId,

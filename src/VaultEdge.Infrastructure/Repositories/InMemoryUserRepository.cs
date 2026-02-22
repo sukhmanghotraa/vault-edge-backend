@@ -1,44 +1,44 @@
 ﻿using System.Collections.Concurrent;
 using VaultEdge.Application.Repositories;
-using VaultEdge.Domain.User;
+using VaultEdge.Domain.Customer;
 
 namespace VaultEdge.Infrastructure.Persistence.Repositories
 {
-    public class InMemoryUserRepository : IUserRepository
+    public class InMemoryUserRepository : ICustomerRepository
     {
-        private static readonly ConcurrentDictionary<Guid, User> _users = new();
+        private static readonly ConcurrentDictionary<Guid, Customer> _users = new();
 
-        public Task AddAsync(User user)
+        public Task AddAsync(Customer customer)
         {
-            _users[user.Id] = user;
+            _users[customer.Id] = customer;
             return Task.CompletedTask;
         }
 
-        public Task<User> CreateUserAsync(User user)
+        public Task<Customer> CreateCustomerAsync(Customer customer)
         {
-            _users[user.Id] = user;
-            return Task.FromResult(user);
+            _users[customer.Id] = customer;
+            return Task.FromResult(customer);
         }
 
-        public Task<User?> GetByIdAsync(Guid id)
+        public Task<Customer?> GetByIdAsync(Guid id)
         {
-            _users.TryGetValue(id, out var user);
-            return Task.FromResult(user);
+            _users.TryGetValue(id, out var customer);
+            return Task.FromResult(customer);
         }
 
-        public Task<User?> GetByEmailAsync(string email, CancellationToken cancellationToken)
+        public Task<Customer?> GetByEmailAsync(string email, CancellationToken cancellationToken)
         {
-            var user = _users.Values.FirstOrDefault(u => u.Email.Equals(email, StringComparison.OrdinalIgnoreCase));
-            return Task.FromResult(user);
+            var customer = _users.Values.FirstOrDefault(u => u.Email == email);
+            return Task.FromResult(customer);
         }
 
-        public Task<User?> GetByCustomerIdAsync(Guid customerId)
+        public Task<Customer?> GetByCustomerIdAsync(Guid customerId)
         {
-            var user = _users.Values.FirstOrDefault(u => u.CustomerId == customerId);
-            return Task.FromResult(user);
+            var customer = _users.Values.FirstOrDefault(u => u.Id == customerId);
+            return Task.FromResult(customer);
         }
 
-        public Task<IEnumerable<User>> GetAllAsync()
+        public Task<IEnumerable<Customer>> GetAllAsync()
         {
             return Task.FromResult(_users.Values.AsEnumerable());
         }
@@ -49,7 +49,7 @@ namespace VaultEdge.Infrastructure.Persistence.Repositories
             return Task.CompletedTask;
         }
 
-        public Task<Guid> DeleteUserAsync(Guid id)
+        public Task<Guid> DeleteCustomerAsync(Guid id)
         {
             _users.TryRemove(id, out _);
             return Task.FromResult(id);

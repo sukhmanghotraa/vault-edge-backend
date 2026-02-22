@@ -2,7 +2,7 @@
 {
     public abstract class ValueObject: IEquatable<ValueObject>
     {
-        public abstract IEnumerable<object> GetEqualityComponents();
+        protected abstract IEnumerable<object> GetEqualityComponents();
 
         public override bool Equals(object? obj)
         {
@@ -34,24 +34,6 @@
         public bool Equals(ValueObject? other)
         {
             return Equals((object?)other);
-        }
-    }
-
-    public class Balance : ValueObject
-    {
-        public decimal Amount { get; private set; }
-        public string Burrency { get; private set; }
-
-        public Balance(decimal amount, string burency)
-        {
-            Amount = amount;
-            Burrency = burency;
-        }
-
-        public override IEnumerable<object> GetEqualityComponents()
-        {
-            yield return Amount;
-            yield return Burrency;
         }
     }
 }

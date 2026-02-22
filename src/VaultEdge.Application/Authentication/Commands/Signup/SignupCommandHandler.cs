@@ -4,7 +4,8 @@ using VaultEdge.Application.Authentication.Common;
 using VaultEdge.Application.Common.Interfaces.Authentication;
 using VaultEdge.Application.Repositories;
 using VaultEdge.Domain.Common.Errors;
-using VaultEdge.Domain.User;
+using VaultEdge.Domain.Customer;
+using VaultEdge.Domain.ValueObjects;
 
 namespace VaultEdge.Application.Authentication.Commands.Signup
 {
@@ -12,9 +13,9 @@ namespace VaultEdge.Application.Authentication.Commands.Signup
     {
 
         private readonly IJwtTokenGenerator _jwtTokenGenerator;
-        private readonly IUserRepository _userRepository;
+        private readonly ICustomerRepository _userRepository;
 
-        public SignupCommandHandler(IJwtTokenGenerator jwtTokenGenerator, IUserRepository userRepository)
+        public SignupCommandHandler(IJwtTokenGenerator jwtTokenGenerator, ICustomerRepository userRepository)
         {
             _jwtTokenGenerator = jwtTokenGenerator;
             _userRepository = userRepository;
@@ -27,29 +28,32 @@ namespace VaultEdge.Application.Authentication.Commands.Signup
 
             if(existingUser is not null)
             {
-                return UserErrors.User.EmailAlreadyInUse;
+                return CustomerErrors.Customer.EmailAlreadyInUse;
             }
 
-            var user = new User(
+            var email = Email.Create(command.Email);
+            var phoneNumber = PhoneNumber.Create(command.PhoneNumber);
+            var address = Address.Create(command.Address);
+
+            var newCustomer = Customer.Create(
                 command.FirstName,
                 command.LastName,
-                command.PasswordHash,
                 command.DateOfBirth,
                 command.TaxId,
                 command.IdentificationId,
                 command.Nationality,
-                command.Email,
-                command.PhoneNumber,
-                command.Address
+                email,
+                phoneNumber,
+                address
             );
 
-            await _userRepository.AddAsync(user);
+            await _userRepository.AddAsync(newCustomer);
             await _userRepository.SaveChangesAsync();
 
-            var token = _jwtTokenGenerator.GenerateToken(user);
+            var token = _jwtTokenGenerator.GenerateToken(newCustomer);
 
             return new AuthenticationResult(
-                user,
+                newCustomer,
                 token);
         }
     }

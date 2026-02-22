@@ -1,8 +1,8 @@
 ﻿using VaultEdge.Application.Abstractions;
 
-namespace VaultEdge.Application.Users.Commands.CreateUser
+namespace VaultEdge.Application.Customers.Commands.CreateCustomer
 {
-    public record CreateUserCommand : ICommand<Guid>
+    public record CreateCustomerCommand : ICommand<Guid>
     {
         public required string FirstName { get; init; }
         public required string LastName { get; init; }

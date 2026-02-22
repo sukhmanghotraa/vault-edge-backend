@@ -1,12 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Microsoft.AspNetCore.Identity;
 
 namespace VaultEdge.Infrastructure.Identity
 {
-    internal class ApplicationUser
+    public class ApplicationUser: IdentityUser<Guid>
     {
+        public Guid CustomerId { get; set; }
+        public DateTime? LastLoginDate { get; set; }
+        public DateTime CreatedAt { get; private set; }
+        public DateTime? UpdatedAt { get; set; }
+
     }
 }

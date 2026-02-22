@@ -1,31 +1,25 @@
 ﻿namespace VaultEdge.Domain.Common.Models
 {
-    public abstract class Entity<TId>: IEquatable<Entity<TId>>
-        where TId : notnull
+    public abstract class Entity
     {
-        public TId Id { get; protected set; }
-
-        public Entity(TId id) 
-        {
-            Id = id;
-        }
+        public Guid Id { get; protected set; }
 
         public override bool Equals(object? obj)
         {
-            return obj is Entity<TId> entity && Id.Equals(entity.Id);
+            return obj is Entity entity && Id.Equals(entity.Id);
         }
 
-        public bool Equals(Entity<TId>? other)
+        public bool Equals(Entity? other)
         {
             return Equals((object?)other);
         }
 
-        public static bool operator ==(Entity<TId> left, Entity<TId> right)
+        public static bool operator ==(Entity left, Entity right)
         {
             return Equals(left, right);
         }
 
-        public static bool operator !=(Entity<TId> left, Entity<TId> right)
+        public static bool operator !=(Entity left, Entity right)
         {
             return !Equals(left, right);
         }
