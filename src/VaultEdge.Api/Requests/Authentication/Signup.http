@@ -6,10 +6,10 @@ Content-Type: application/json
 {
   "firstName": "Chantal",
   "lastName": "Ladurner",
-  "passwordHash": "PasswordHash12324",
+  "password": "SecrectnumPass32.",
   "dateOfBirth": "2000-01-05T19:21:28.856Z",
-  "taxId": "CHLD123212",
-  "identificationId": "ID35FW333",
+  "taxId": "SIMLD123212",
+  "identificationId": "ID55FW253",
   "nationality": "IT",
   "email": "chantalladurner@gmail.com",
   "phoneNumber": "2223334444",

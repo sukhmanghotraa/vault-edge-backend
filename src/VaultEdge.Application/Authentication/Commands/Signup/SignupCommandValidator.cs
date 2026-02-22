@@ -9,7 +9,7 @@ namespace VaultEdge.Application.Authentication.Commands.Signup
             RuleFor(x => x.FirstName).NotEmpty();
             RuleFor(x => x.LastName).NotEmpty();
             RuleFor(x => x.Email).NotEmpty().EmailAddress();
-            RuleFor(x => x.PasswordHash).NotEmpty();
+            RuleFor(x => x.Password).NotEmpty();
             RuleFor(x => x.DateOfBirth).NotEmpty().LessThan(DateTime.Now);
             RuleFor(x => x.TaxId).NotEmpty();
             RuleFor(x => x.IdentificationId).NotEmpty();

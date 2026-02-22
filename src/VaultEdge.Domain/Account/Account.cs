@@ -7,6 +7,7 @@
         public decimal Balance { get; set; }
         public Guid UserId { get; set; }
         public AccountType AccountType { get; set; }
+        public AccountStatus AccountStatus { get; set; }
         public DateTime CreatedAt { get; private set; }
         public DateTime? UpdatedAt { get; set; }
 
@@ -22,10 +23,17 @@
 
             CreatedAt = DateTime.UtcNow;
             AccountType = AccountType.Savings;
+            AccountStatus = AccountStatus.Active;
         }
     }
 
-
+    public enum AccountStatus
+    {
+        Active,
+        Inactive,
+        Closed,
+        Suspended
+    }
 
     public enum AccountType
     {

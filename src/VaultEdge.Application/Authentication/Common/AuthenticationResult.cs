@@ -1,8 +1,8 @@
-﻿using VaultEdge.Domain.User;
+﻿using VaultEdge.Domain.Customer;
 
 namespace VaultEdge.Application.Authentication.Common
 {
     public record AuthenticationResult(
-        User User,
+        Customer User,
         string Token);
 }

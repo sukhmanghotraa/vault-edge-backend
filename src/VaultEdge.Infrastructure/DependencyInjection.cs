@@ -1,11 +1,13 @@
 ﻿using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using VaultEdge.Application.Common.Interfaces.Authentication;
+using VaultEdge.Application.Common.Interfaces.Persistence;
 using VaultEdge.Application.Common.Interfaces.Services;
 using VaultEdge.Application.Repositories;
 using VaultEdge.Infrastructure.Identity;
@@ -29,11 +31,18 @@ public static class DependencyInjection
         services.AddSingleton<IDateTimeProvider, DateTimeProvider>();
 
         services.AddScoped<IAccountRepository, AccountRepository>();
-        services.AddScoped<IUserRepository, UserRepository>();
+        services.AddScoped<ICustomerRepository, CustomerRepository>();
+
+        services.AddIdentity<ApplicationUser, IdentityRole<Guid>>()
+            .AddEntityFrameworkStores<VaultEdgeDbContext>()
+            .AddDefaultTokenProviders();
+        services.AddScoped<IIdentityService, IdentityService>();
 
 
         return services;
     }
+
+    
 
     public static IServiceCollection AddAuth(this IServiceCollection services, ConfigurationManager configuration)
     {

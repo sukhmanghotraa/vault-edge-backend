@@ -2,43 +2,46 @@
 using MediatR;
 using VaultEdge.Application.Authentication.Common;
 using VaultEdge.Application.Common.Interfaces.Authentication;
+using VaultEdge.Application.Common.Interfaces.Persistence;
 using VaultEdge.Application.Repositories;
 using VaultEdge.Domain.Common.Errors;
-using VaultEdge.Domain.User;
 
 namespace VaultEdge.Application.Authentication.Queries.Signin
 {
     public class SigninQueryHandler: IRequestHandler<SigninQuery, ErrorOr<AuthenticationResult>>
     {
-
+        private readonly IIdentityService _identityService;
         private readonly IJwtTokenGenerator _jwtTokenGenerator;
-        private readonly IUserRepository _userRepository;
+        private readonly ICustomerRepository _customerRepository;
 
-        public SigninQueryHandler(IJwtTokenGenerator jwtTokenGenerator, IUserRepository userRepository)
+        public SigninQueryHandler(IIdentityService identityService,IJwtTokenGenerator jwtTokenGenerator, ICustomerRepository customerRepository)
         {
+            _identityService = identityService;
             _jwtTokenGenerator = jwtTokenGenerator;
-            _userRepository = userRepository;
+            _customerRepository = customerRepository;
         }
 
 
         public async Task<ErrorOr<AuthenticationResult>> Handle(SigninQuery query, CancellationToken cancellationToken)
         {
-            var existingUser = _userRepository.GetByEmailAsync(query.Email, default).Result;
+            var authResult = _identityService.AuthenticateAsync(query.Email, query.Password).Result;
 
-            if(existingUser is not User user)
+            if (!authResult.Succeeded)
             {
                 return AuthenticationErrors.Authentication.InvalidCredentials;
             }
 
-            if(user.PasswordHash != query.Password)
+            var customer = await _customerRepository.GetByIdAsync(authResult.CustomerId);
+
+            if (customer is null)
             {
-                return new[] { AuthenticationErrors.Authentication.InvalidCredentials };
+                return CustomerErrors.Customer.NotFound(authResult.CustomerId);
             }
 
-            var token  = _jwtTokenGenerator.GenerateToken(user);
+            var token  = _jwtTokenGenerator.GenerateToken(customer, authResult.SecurityStamp);
 
             return new AuthenticationResult(
-                user,
+                customer,
                 token);
         }
     }

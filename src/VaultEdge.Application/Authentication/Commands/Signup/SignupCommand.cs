@@ -7,7 +7,7 @@ namespace VaultEdge.Application.Authentication.Commands.Signup
     public record SignupCommand(
         string FirstName, 
         string LastName, 
-        string PasswordHash, 
+        string Password, 
         DateTime DateOfBirth, 
         string TaxId, 
         string IdentificationId, 
