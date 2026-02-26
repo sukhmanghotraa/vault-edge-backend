@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using VaultEdge.Domain.Account;
+using VaultEdge.Domain.ValueObjects;
 
 namespace VaultEdge.Infrastructure.Persistence.Configurations
 {
@@ -8,22 +9,98 @@ namespace VaultEdge.Infrastructure.Persistence.Configurations
     {
         public void Configure(EntityTypeBuilder<Account> builder)
         {
-            // Set the primary key
+            builder.ToTable("Accounts");
+
             builder.HasKey(a => a.Id);
 
-            // Configure the 'Balance' property to fix the warning
-            // This sets the SQL column type to DECIMAL(18, 2), which is standard for currency
-            builder.Property(a => a.Balance)
+            builder.Property(a => a.AccountNumber)
                 .IsRequired()
-                .HasPrecision(18, 2); // 18 total digits, 2 decimal places
+                .HasMaxLength(20);
 
-            // Configure the relationship between Account and User
-            // Assuming Account has a UserId foreign key property
-            //builder.HasOne(a => a.User)
-            //    .WithMany(u => u.Accounts)
-            //    .HasForeignKey(a => a.UserId);
+            builder.HasIndex(a => a.AccountNumber)
+                .IsUnique();
 
-            // Add any other specific configuration here (e.g., indexes, default values)
+            builder.Property(a => a.CustomerId)
+                .IsRequired();
+
+            builder.Property(a => a.Type)
+                .HasConversion<string>()
+                .IsRequired()
+                .HasMaxLength(20);
+
+            builder.Property(a => a.Status)
+                .HasConversion<string>()
+                .IsRequired()
+                .HasMaxLength(20);
+
+            builder.Property(a => a.CreatedAt).IsRequired();
+            builder.Property(a => a.UpdatedAt).IsRequired(false);
+            builder.Property(a => a.ClosedAt).IsRequired(false);
+
+            builder.Property(a => a.Currency)
+                .HasConversion(
+                    currency => currency.Code,
+                    code => Currency.FromCode(code)!)
+                .HasColumnName("CurrencyCode")
+                .IsRequired()
+                .HasMaxLength(3);
+
+            builder.OwnsOne(a => a.Balance, balance =>
+            {
+                balance.Property(b => b.Amount)
+                    .HasColumnName("BalanceAmount")
+                    .IsRequired()
+                    .HasPrecision(18, 2);
+
+                balance.Property(b => b.Currency)
+                    .HasConversion(
+                        currency => currency.Code,
+                        code => Currency.FromCode(code)!)
+                    .HasColumnName("BalanceCurrency")
+                    .IsRequired()
+                    .HasMaxLength(3);
+            });
+
+            builder.OwnsOne(a => a.OverdraftLimit, limit =>
+            {
+                limit.Property(m => m.Amount)
+                    .HasColumnName("OverdraftLimitAmount")
+                    .HasPrecision(18, 2);
+
+                limit.Property(m => m.Currency)
+                    .HasConversion(c => c.Code, code => Currency.FromCode(code)!)
+                    .HasColumnName("OverdraftLimitCurrency")
+                    .HasMaxLength(3);
+            });
+
+            builder.OwnsOne(a => a.DailyWithdrawalLimit, limit =>
+            {
+                limit.Property(m => m.Amount)
+                    .HasColumnName("DailyWithdrawalLimit")
+                    .HasPrecision(18, 2);
+
+                limit.Property(m => m.Currency)
+                    .HasConversion(c => c.Code, code => Currency.FromCode(code)!)
+                    .HasColumnName("DailyWithdrawalLimitCurrency")
+                    .HasMaxLength(3);
+            });
+
+            builder.OwnsOne(a => a.MonthlyWithdrawalLimit, limit =>
+            {
+                limit.Property(m => m.Amount)
+                    .HasColumnName("MonthlyWithdrawalLimit")
+                    .HasPrecision(18, 2);
+
+                limit.Property(m => m.Currency)
+                    .HasConversion(c => c.Code, code => Currency.FromCode(code)!)
+                    .HasColumnName("MonthlyWithdrawalLimitCurrency")
+                    .HasMaxLength(3);
+            });
+
+            builder.HasMany<Transaction>("_transactions")
+                .WithOne()
+                .HasForeignKey("AccountId")
+                .OnDelete(DeleteBehavior.Cascade); // If account is deleted, also delete related transactions
         }
     }
 }
