@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace VaultEdge.Domain.Enums
+﻿namespace VaultEdge.Domain.Enums
 {
-    internal class AccountType
+    public enum AccountType
     {
+        Checking,
+        Savings,
     }
 }

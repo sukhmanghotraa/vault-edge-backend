@@ -25,7 +25,6 @@ namespace VaultEdge.Infrastructure.Persistence.Repositories
 
         public async Task<Account> CreateAccountAsync(Account account)
         {
-            account.Balance = 0;
             await _context.Accounts.AddAsync(account);
             await _context.SaveChangesAsync();
             return account;
@@ -46,24 +45,26 @@ namespace VaultEdge.Infrastructure.Persistence.Repositories
 
         public async Task<Account?> DepositAsync(Guid accountId, decimal amount)
         {
-            var account = await _context.Accounts.FindAsync(accountId);
-            if (account == null) return null;
+            throw new NotImplementedException("DepositAsync method is not implemented yet.");
+            //var account = await _context.Accounts.FindAsync(accountId);
+            //if (account == null) return null;
 
-            account.Balance += amount;
-            await _context.SaveChangesAsync();
+            //account.Balance += amount;
+            //await _context.SaveChangesAsync();
 
-            return account;
+            //return account;
         }
 
         public async Task<Account?> WithdrawAsync(Guid accountId, decimal amount)
         {
-            var account = await _context.Accounts.FindAsync(accountId);
-            if (account == null || account.Balance < amount) return null;
+            throw new NotImplementedException("WithdrawAsync method is not implemented yet.");
+            //var account = await _context.Accounts.FindAsync(accountId);
+            //if (account == null || account.Balance < amount) return null;
 
-            account.Balance -= amount;
-            await _context.SaveChangesAsync();
+            //account.Balance -= amount;
+            //await _context.SaveChangesAsync();
 
-            return account;
+            //return account;
         }
 
         public async Task AddAsync(Account account)
