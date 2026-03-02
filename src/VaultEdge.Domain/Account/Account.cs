@@ -6,21 +6,21 @@ namespace VaultEdge.Domain.Account
 {
     public class Account : AggregateRoot
     {
-        public string AccountNumber { get; private set; }
+        public string AccountNumber { get; private set; } = null!;
         public Guid CustomerId { get; private set; }
 
-        public AccountType Type { get; private set; }
-        public Currency Currency { get; private set; }
-        public AccountStatus Status { get; private set; }
+        public AccountType Type { get; private set; } = default!;
+        public Currency Currency { get; private set; } = null!;
+        public AccountStatus Status { get; private set; } = default!;
 
-        private Money _balance;
+        private Money _balance = null!;
         public Money Balance => _balance;
 
-        public Money OverdraftLimit { get; private set; }
+        public Money OverdraftLimit { get; private set; } = null!;
         public Money? DailyWithdrawalLimit { get; private set; }
         public Money? MonthlyWithdrawalLimit { get; private set; }
 
-        private readonly List<Transaction> _transactions = new List<Transaction>();
+        private readonly List<Transaction> _transactions = new();
         public IReadOnlyCollection<Transaction> Transactions => _transactions.AsReadOnly();
 
         public DateTime CreatedAt { get; private set; }

@@ -6,11 +6,11 @@ namespace VaultEdge.Domain.Account
 {
     public class Transaction: Entity
     {
-        public TransactionType Type { get; private set; }
-        public Money Amount { get; private set; }
-        public string Description { get; private set; }
+        public TransactionType Type { get; private set; } = default!;
+        public Money Amount { get; private set; } = null!;
+        public string Description { get; private set; } = null!;
         public DateTime TransactionDate { get; private set; }
-        public Money BalanceAfter { get; private set; }
+        public Money BalanceAfter { get; private set; } = null!;
         public string? CounterpartyAccountNumber { get; private set; }
         public string? CounterpartyName { get; private set; }
         public Guid? TransferReferenceId { get; private set; }
