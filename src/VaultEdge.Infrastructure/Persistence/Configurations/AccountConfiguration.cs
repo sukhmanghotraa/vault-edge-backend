@@ -97,10 +97,14 @@ namespace VaultEdge.Infrastructure.Persistence.Configurations
                     .HasMaxLength(3);
             });
 
-            builder.HasMany<Transaction>("_transactions")
+            builder.HasMany(a => a.Transactions)
                 .WithOne()
                 .HasForeignKey("AccountId")
-                .OnDelete(DeleteBehavior.Cascade); // If account is deleted, also delete related transactions
+                .OnDelete(DeleteBehavior.Cascade);
+
+            builder.Navigation(a => a.Transactions)
+                .HasField("_transactions")
+                .UsePropertyAccessMode(PropertyAccessMode.Field);
         }
     }
 }
