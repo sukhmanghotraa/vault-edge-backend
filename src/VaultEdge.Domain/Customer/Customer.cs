@@ -1,5 +1,6 @@
 ﻿using VaultEdge.Domain.Account;
 using VaultEdge.Domain.Common.Models;
+using VaultEdge.Domain.Enums;
 using VaultEdge.Domain.ValueObjects;
 
 namespace VaultEdge.Domain.Customer
@@ -14,9 +15,9 @@ namespace VaultEdge.Domain.Customer
         public string IdentificationId { get; private set; } = string.Empty;
         public  string Nationality { get; private set; } = string.Empty;
 
-        private Email _email;
-        private PhoneNumber _phoneNumber;
-        private Address _address;
+        private Email _email = null!;
+        private PhoneNumber _phoneNumber = null!;
+        private Address _address = null!;
 
         public Email Email => _email;
         public PhoneNumber PhoneNumber => _phoneNumber;
@@ -127,7 +128,7 @@ namespace VaultEdge.Domain.Customer
 
         public void Close()
         {
-            if (_accounts.Any(a => a.AccountStatus == AccountStatus.Active))
+            if (_accounts.Any(a => a.Status == AccountStatus.Active))
                 throw new InvalidOperationException("Cannot close customer with active accounts. Close all accounts first.");
 
             Status = CustomerStatus.Closed;
