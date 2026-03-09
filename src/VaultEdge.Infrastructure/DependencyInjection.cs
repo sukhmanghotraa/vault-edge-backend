@@ -32,8 +32,9 @@ public static class DependencyInjection
 
         services.AddScoped<IAccountRepository, AccountRepository>();
         services.AddScoped<ICustomerRepository, CustomerRepository>();
-
-        services.AddIdentity<ApplicationUser, IdentityRole<Guid>>()
+        
+        services.AddIdentityCore<ApplicationUser>()
+            .AddRoles<IdentityRole<Guid>>()
             .AddEntityFrameworkStores<VaultEdgeDbContext>()
             .AddDefaultTokenProviders();
         services.AddScoped<IIdentityService, IdentityService>();
@@ -58,11 +59,16 @@ public static class DependencyInjection
         services.AddSingleton(Options.Create(jwtSettings));
         services.AddSingleton<IJwtTokenGenerator, JwtTokenGenerator>();
 
-        services.AddAuthentication(defaultScheme: JwtBearerDefaults.AuthenticationScheme)
+        services.AddAuthentication(options =>
+        {
+            options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+            options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+        })
             .AddJwtBearer(options => options.TokenValidationParameters = new TokenValidationParameters
             {
-                    ValidateIssuer = false,
-                    ValidateAudience = false,
+                    ValidateIssuer = true,
+                    ValidateAudience = true,
                     ValidateLifetime = true,
                     ValidateIssuerSigningKey = true,
                     ValidIssuer = jwtSettings.Issuer,
