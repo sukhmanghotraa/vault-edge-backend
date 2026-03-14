@@ -24,7 +24,7 @@ namespace VaultEdge.Api.Controllers
 
             return result.Match(
                 customer => Ok(customer),
-                _ => Problem(statusCode: StatusCodes.Status404NotFound, title: "Customer not found.")
+                errors => Problem(errors)
             );
         }
 
@@ -36,7 +36,7 @@ namespace VaultEdge.Api.Controllers
 
             return result.Match(
                 deletedCustomerId => Ok(deletedCustomerId),
-                _ => Problem(statusCode: StatusCodes.Status404NotFound, title: "Customer not found.")
+                errors => Problem(errors)
             );
         }
 
@@ -48,7 +48,7 @@ namespace VaultEdge.Api.Controllers
 
             return customers.Match(
                 customerList => Ok(customerList),
-                _ => Problem(statusCode: StatusCodes.Status404NotFound, title: "No customers found.")
+                errors => Problem(errors)
             );
         }
     }

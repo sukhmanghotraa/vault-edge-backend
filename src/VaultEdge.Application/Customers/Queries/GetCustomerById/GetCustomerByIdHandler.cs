@@ -18,6 +18,7 @@ namespace VaultEdge.Application.Customers.Queries.GetCustomerById
         public async Task<ErrorOr<CustomerDto>> Handle(GetCustomerByIdQuery request, CancellationToken cancelationToken = default)
         {
             var user = await _customerRepository.GetByIdAsync(request.CustomerId);
+
             if (user is null) {
                 return CustomerErrors.Customer.NotFound(request.CustomerId);
             }
