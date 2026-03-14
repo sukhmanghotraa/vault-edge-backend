@@ -13,86 +13,55 @@ namespace VaultEdge.Infrastructure.Persistence.Repositories
             _context = context;
         }
 
-        public async Task<Account?> GetAccountByIdAsync(Guid id)
+        public async Task<Account?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
         {
-            return await _context.Accounts.FindAsync(id);
+            return await _context.Accounts
+                .Include(a => a.Transactions)
+                .FirstOrDefaultAsync(a => a.Id == id, cancellationToken);
         }
 
-        public async Task<IEnumerable<Account>> GetAllAccountsAsync()
+        public async Task<Account?> GetByAccountNumberAsync(string accountNumber, CancellationToken cancellationToken = default)
         {
-            return await _context.Accounts.ToListAsync();
+            return await _context.Accounts
+                .Include(a => a.Transactions)
+                .FirstOrDefaultAsync(a => a.AccountNumber == accountNumber, cancellationToken);
         }
 
-        public async Task<Account> CreateAccountAsync(Account account)
+        public async Task<List<Account>> GetByCustomerIdAsync(Guid customerId, CancellationToken cancellationToken = default)
         {
-            await _context.Accounts.AddAsync(account);
-            await _context.SaveChangesAsync();
-            return account;
+            // Current: All accounts with all transaction, which is currently a lot of data
+            // TODO: Add pagination
+            return await _context.Accounts
+                .Include(a => a.Transactions)
+                .Where(a => a.CustomerId == customerId)
+                .ToListAsync(cancellationToken);
         }
 
-        public async Task<Guid> DeleteAccountAsync(Guid id)
+        public async Task<List<Account>> GetAllAsync(CancellationToken cancellationToken = default)
         {
-            var account = await _context.Accounts.FindAsync(id);
-            if(account == null)
-            {
-                throw new Exception("Account not found");
-            }
+            return await _context.Accounts
+                .Include(a => a.Transactions)
+                .ToListAsync(cancellationToken);
+        }
 
+        public async Task AddAsync(Account account, CancellationToken cancellationToken = default)
+        {
+            await _context.Accounts.AddAsync(account, cancellationToken);
+        }
+
+        public void Update(Account account)
+        {
+            _context.Accounts.Update(account);
+        }
+
+        public void Delete(Account account)
+        {
             _context.Accounts.Remove(account);
-            await _context.SaveChangesAsync();
-            return account.Id;
         }
 
-        public async Task<Account?> DepositAsync(Guid accountId, decimal amount)
-        {
-            throw new NotImplementedException("DepositAsync method is not implemented yet.");
-            //var account = await _context.Accounts.FindAsync(accountId);
-            //if (account == null) return null;
-
-            //account.Balance += amount;
-            //await _context.SaveChangesAsync();
-
-            //return account;
-        }
-
-        public async Task<Account?> WithdrawAsync(Guid accountId, decimal amount)
-        {
-            throw new NotImplementedException("WithdrawAsync method is not implemented yet.");
-            //var account = await _context.Accounts.FindAsync(accountId);
-            //if (account == null || account.Balance < amount) return null;
-
-            //account.Balance -= amount;
-            //await _context.SaveChangesAsync();
-
-            //return account;
-        }
-
-        public async Task AddAsync(Account account)
-        {
-            await _context.Accounts.AddAsync(account);
-        }
-
-        public async Task SaveChangesAsync()
+        public async Task SaveChangesAsync(CancellationToken cancellationToken = default)
         {
             await _context.SaveChangesAsync();
         }
-
-        public async Task<Account?> GetByIdAsync(Guid id)
-        {
-            var account = await _context.Accounts.FindAsync(id);
-
-            if(account == null)
-            {
-                throw new Exception("Account not found");
-            }
-
-            return account;
-        }
-
-        public async Task<IEnumerable<Account>> GetAllAsync()
-        {
-            return await _context.Accounts.ToListAsync();
-        }
-
     }
 }

@@ -17,12 +17,13 @@ namespace VaultEdge.Application.Accounts.Commands.DeleteAccount
         public async Task<ErrorOr<Guid>> Handle(DeleteAccountCommand command, CancellationToken cancellationToken)
         {
             var account = await _accountRepository.GetByIdAsync(command.AccountId);
+
             if (account == null)
             {
                 return AccountErrors.Account.NotFound(command.AccountId);
             }
 
-            await _accountRepository.DeleteAccountAsync(account.Id);
+            _accountRepository.Delete(account);
             await _accountRepository.SaveChangesAsync();
             return account.Id;
         }

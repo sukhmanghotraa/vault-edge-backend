@@ -19,7 +19,7 @@ namespace VaultEdge.Application.Accounts.Queries.GetAccountById
         {
             var account = await _accountRepository.GetByIdAsync(request.AccountId);
 
-            if(account == null)
+            if(account is null)
             {
                 return AccountErrors.Account.NotFound(request.AccountId);
             }
@@ -28,9 +28,9 @@ namespace VaultEdge.Application.Accounts.Queries.GetAccountById
             {
                 Id = account.Id,
                 AccountNumber = account.AccountNumber,
-                Balance = account.Balance,
-                UserId = account.UserId,
-                AccountType = account.AccountType,
+                CustomerId = account.CustomerId,
+                AccountType = account.Type,
+                Transactions = account.Transactions,
                 CreatedAt = account.CreatedAt,
             };
         }

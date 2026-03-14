@@ -1,9 +1,12 @@
-﻿using MediatR;
+﻿using Azure.Core;
+using ErrorOr;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using VaultEdge.Application.Accounts.Commands.CreateAccount;
 using VaultEdge.Application.Accounts.Commands.DeleteAccount;
 using VaultEdge.Application.Accounts.Queries.GetAccountById;
 using VaultEdge.Application.Accounts.Queries.GetAllAccounts;
+using VaultEdge.Application.Authentication.Commands.Signup;
 
 namespace VaultEdge.Api.Controllers
 {
@@ -17,14 +20,16 @@ namespace VaultEdge.Api.Controllers
             _mediator = mediator;
         }
 
-        [HttpPost]
-        public async Task<IActionResult> CreateAccount([FromBody] CreateAccountCommand command)
+        [HttpPost("create")]
+        public async Task<IActionResult> CreateAccount([FromBody] CreateAccountCommand command, CancellationToken cancellationToken)
         {
             var result = await _mediator.Send(command);
 
+            ErrorOr<Guid> creationResult = await _mediator.Send(command);
+
             return result.Match(
                 accountId => CreatedAtAction(nameof(GetAccountById), new { accountId }, accountId),
-                _ => Problem(statusCode: StatusCodes.Status409Conflict, title: "Account already exit.")
+                errors => Problem(errors)
             );
         }
 
@@ -36,7 +41,7 @@ namespace VaultEdge.Api.Controllers
 
             return result.Match(
                 account => Ok(account),
-                _ => Problem(statusCode: StatusCodes.Status404NotFound, title: "Account not found.")
+                errors => Problem(errors)
             );
         }
 
@@ -48,7 +53,7 @@ namespace VaultEdge.Api.Controllers
 
             return result.Match(
                 deletedAccountId => Ok(deletedAccountId),
-                _ => Problem(statusCode: StatusCodes.Status404NotFound, title: "Account not found.")
+                errors => Problem(errors)
             );
         }
 
@@ -60,7 +65,7 @@ namespace VaultEdge.Api.Controllers
 
             return accounts.Match(
                 accountList => Ok(accountList),
-                _ => Problem(statusCode: StatusCodes.Status404NotFound, title: "No accounts found.")
+                errors => Problem(errors)
             );
         }
     }
