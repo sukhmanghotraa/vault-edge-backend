@@ -18,7 +18,8 @@ namespace VaultEdge.Application.Customers.Queries.GetAllCustomers
         public async Task<ErrorOr<List<CustomerDto>>> Handle(GetAllCustomersQuery request, CancellationToken cancellationToken = default)
         {
             var users = await _customerRepository.GetAllAsync();
-            if (users == null)
+
+            if (users is null)
             {
                 return CustomerErrors.Customer.NoneFound;
             }

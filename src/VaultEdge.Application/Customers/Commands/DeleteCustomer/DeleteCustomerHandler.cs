@@ -17,7 +17,8 @@ namespace VaultEdge.Application.Customers.Commands.DeleteCustomer
         public async Task<ErrorOr<Guid>> Handle(DeleteCustomerCommand request, CancellationToken cancellationToken)
         {
             var customer = await _customerRepository.GetByIdAsync(request.CustomerId);
-            if(customer == null)
+
+            if(customer is null)
             {
                 return CustomerErrors.Customer.NotFound(request.CustomerId);
             }
