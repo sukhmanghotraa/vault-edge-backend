@@ -2,7 +2,7 @@
 {
     public enum AccountType
     {
-        Checking,
-        Savings,
+        Checking = 1,
+        Savings = 2,
     }
 }

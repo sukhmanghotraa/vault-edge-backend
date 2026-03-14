@@ -18,7 +18,8 @@ namespace VaultEdge.Application.Accounts.Queries.GetAllAccounts
         public async Task<ErrorOr<List<AccountDto>>> Handle(GetAllAccountsQuery request, CancellationToken cancellationToken = default)
         {
             var accounts = await _accountRepository.GetAllAsync();
-            if (accounts == null)
+
+            if (accounts is null)
             {
                 return AccountErrors.Account.NoneFound;
             }
@@ -27,9 +28,9 @@ namespace VaultEdge.Application.Accounts.Queries.GetAllAccounts
             {
                 Id = account.Id,
                 AccountNumber = account.AccountNumber,
-                Balance = account.Balance,
-                UserId = account.UserId,
-                AccountType = account.AccountType,
+                CustomerId = account.CustomerId,
+                AccountType = account.Type,
+                Transactions = account.Transactions,
                 CreatedAt = account.CreatedAt
             });
 
