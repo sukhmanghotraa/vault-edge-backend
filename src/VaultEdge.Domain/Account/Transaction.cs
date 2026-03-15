@@ -30,7 +30,7 @@ namespace VaultEdge.Domain.Account
             string? externalReference = null,
             Dictionary<string, string>? metadata = null)
         {
-            if(amount == null)
+            if(amount is null)
                 throw new ArgumentNullException(nameof(amount));
 
             if (string.IsNullOrWhiteSpace(description))
