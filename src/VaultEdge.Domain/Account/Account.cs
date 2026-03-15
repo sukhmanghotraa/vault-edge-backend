@@ -139,7 +139,7 @@ namespace VaultEdge.Domain.Account
         public void Deposit(Money amount, string description, string? externalRefernce = null, Dictionary<string, string>? metadata = null)
         {
             if (amount is null)
-                throw new ArgumentException();
+                throw new ArgumentException("Amount is requred.");
 
             if (amount.Currency != Currency)
                 throw new InvalidOperationException($"Cannot deposit {amount.Currency.Code} into an account denominated in {Currency.Code}");
