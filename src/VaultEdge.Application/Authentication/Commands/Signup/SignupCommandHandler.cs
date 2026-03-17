@@ -77,11 +77,13 @@ namespace VaultEdge.Application.Authentication.Commands.Signup
 
             var securityStamp = await _identityService.GetSecurityStampAsync(customer.Id);
 
-            var token = _jwtTokenGenerator.GenerateToken(customer, securityStamp);
+            var accessToken = _jwtTokenGenerator.GenerateAccesssToken(customer, securityStamp);
+            var refreshToken = _jwtTokenGenerator.GenerateRefreshToken();
 
             return new AuthenticationResult(
                 customer,
-                token);
+                accessToken,
+                refreshToken);
         }
     }
 }

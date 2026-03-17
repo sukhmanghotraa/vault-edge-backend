@@ -4,6 +4,7 @@ namespace VaultEdge.Application.Common.Interfaces.Authentication
 {
     public interface IJwtTokenGenerator
     {
-        string GenerateToken(Customer user, string? securityStamp = null);
+        string GenerateAccesssToken(Customer user, string? securityStamp = null);
+        string GenerateRefreshToken();
     }
 }

@@ -38,11 +38,13 @@ namespace VaultEdge.Application.Authentication.Queries.Signin
                 return CustomerErrors.Customer.NotFound(authResult.CustomerId);
             }
 
-            var token  = _jwtTokenGenerator.GenerateToken(customer, authResult.SecurityStamp);
+            var accessToken  = _jwtTokenGenerator.GenerateAccesssToken(customer, authResult.SecurityStamp);
+            var refreshToken = _jwtTokenGenerator.GenerateRefreshToken();
 
             return new AuthenticationResult(
                 customer,
-                token);
+                accessToken,
+                refreshToken);
         }
     }
 }

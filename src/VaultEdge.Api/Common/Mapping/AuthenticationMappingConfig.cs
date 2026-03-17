@@ -15,8 +15,8 @@ namespace VaultEdge.Api.Common.Mapping
             config.NewConfig<SigninRequest, SigninQuery>();
 
             config.NewConfig<AuthenticationResult, AuthenticationResponse>()
-                .Map(dest => dest.Token, src => src.Token)
-                .Map(dest => dest, src => src.User);
+                .Map(dest => dest.AccessToken, src => src.AccessToken)
+                .Map(dest => dest, src => src.Customer);
         }
     }
 }
