@@ -3,6 +3,7 @@
 namespace VaultEdge.Application.Authentication.Common
 {
     public record AuthenticationResult(
-        Customer User,
-        string Token);
+        Customer Customer,
+        string AccessToken,
+        string RefreshToken);
 }

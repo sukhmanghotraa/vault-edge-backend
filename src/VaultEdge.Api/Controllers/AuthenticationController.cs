@@ -33,7 +33,18 @@ namespace VaultEdge.Api.Controllers
             ErrorOr<AuthenticationResult> authResult = await _mediator.Send(command);
 
             return authResult.Match(
-                authResult => Ok(_mapper.Map<AuthenticationResponse>(authResult)),
+                authResult =>
+                {
+                    Response.Cookies.Append("refreshToken", authResult.RefreshToken, new CookieOptions
+                    {
+                        HttpOnly = true,
+                        Secure = true,
+                        SameSite = SameSiteMode.Strict,
+                        Expires = DateTime.UtcNow.AddDays(7)
+                    });
+
+                    return Ok(_mapper.Map<AuthenticationResponse>(authResult));
+                },
                 errors => Problem(errors)
             );
         }
@@ -54,7 +65,18 @@ namespace VaultEdge.Api.Controllers
             }
 
             return authResult.Match(
-                authResult => Ok(_mapper.Map<AuthenticationResponse>(authResult)),
+                authResult =>
+                {
+                    Response.Cookies.Append("refreshToken", authResult.RefreshToken, new CookieOptions
+                    { 
+                        HttpOnly = true,
+                        Secure = true,
+                        SameSite = SameSiteMode.Strict,
+                        Expires = DateTime.UtcNow.AddDays(7)
+                    });
+
+                    return Ok(_mapper.Map<AuthenticationResponse>(authResult));
+                },
                 errors => Problem(errors)
             );
         }

@@ -2,6 +2,7 @@
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
+using System.Security.Cryptography;
 using System.Text;
 using VaultEdge.Application.Common.Interfaces.Authentication;
 using VaultEdge.Application.Common.Interfaces.Services;
@@ -20,7 +21,7 @@ namespace VaultEdge.Infrastructure.Identity
             _jwtSettings = jwtOptions.Value;
         }
 
-        public string GenerateToken(Customer user, string securityStamp)
+        public string GenerateAccesssToken(Customer user, string securityStamp)
         {
 
             var signingCredentials = new SigningCredentials(
@@ -46,6 +47,12 @@ namespace VaultEdge.Infrastructure.Identity
                 signingCredentials: signingCredentials);
 
             return new JwtSecurityTokenHandler().WriteToken(securityToken);
+        }
+
+        public string GenerateRefreshToken()
+        {
+            var bytes = RandomNumberGenerator.GetBytes(64);
+            return Convert.ToBase64String(bytes);
         }
     }
 }

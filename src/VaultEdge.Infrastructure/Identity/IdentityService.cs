@@ -22,6 +22,11 @@ namespace VaultEdge.Infrastructure.Identity
                 return IdentityVerificationResult.Failure("Invalid email or password");
             }
 
+            if (await _userManager.IsLockedOutAsync(user))
+            {
+                return IdentityVerificationResult.Failure("Account is locked due to multiple failed login attempts");
+            }
+
             var isPasswordValid = await _userManager.CheckPasswordAsync(user, password);
             if (!isPasswordValid)
             {
@@ -29,10 +34,6 @@ namespace VaultEdge.Infrastructure.Identity
                 return IdentityVerificationResult.Failure("Invalid email or password");
             }
 
-            if (await _userManager.IsLockedOutAsync(user))
-            {
-                return IdentityVerificationResult.Failure("Account is locked due to multiple failed login attempts");
-            }
 
             if (user.TwoFactorEnabled)
             {
