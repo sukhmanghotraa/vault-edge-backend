@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using VaultEdge.Application.Accounts.Commands.CreateAccount;
 using VaultEdge.Application.Accounts.Commands.DeleteAccount;
 using VaultEdge.Application.Accounts.Queries.GetAccountById;
+using VaultEdge.Application.Accounts.Queries.GetAccountsByCustomerId;
 using VaultEdge.Application.Accounts.Queries.GetAllAccounts;
 using VaultEdge.Application.Authentication.Commands.Signup;
 
@@ -57,10 +58,10 @@ namespace VaultEdge.Api.Controllers
             );
         }
 
-        [HttpGet]
-        public async Task<IActionResult> GetAllAccounts()
+        [HttpGet("all/{customerId:guid}")]
+        public async Task<IActionResult> GetAccountsByCustomerId(Guid customerId)
         {
-            var query = new GetAllAccountsQuery();
+            var query = new GetAccountsByCustomerIdQuery(customerId);
             var accounts = await _mediator.Send(query);
 
             return accounts.Match(
