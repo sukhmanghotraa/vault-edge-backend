@@ -30,7 +30,10 @@ namespace VaultEdge.Application.Accounts.Queries.GetAllAccounts
                 AccountNumber = account.AccountNumber,
                 CustomerId = account.CustomerId,
                 AccountType = account.Type,
+                Status = account.Status,
                 Transactions = account.Transactions,
+                Currency = account.Currency,
+                Balance = account.Balance,
                 CreatedAt = account.CreatedAt
             });
 
