@@ -32,7 +32,6 @@ namespace VaultEdge.Infrastructure.Persistence.Repositories
             // Current: All accounts with all transaction, which is currently a lot of data
             // TODO: Add pagination
             return await _context.Accounts
-                .Include(a => a.Transactions)
                 .Where(a => a.CustomerId == customerId)
                 .ToListAsync(cancellationToken);
         }
@@ -40,7 +39,6 @@ namespace VaultEdge.Infrastructure.Persistence.Repositories
         public async Task<List<Account>> GetAllAsync(CancellationToken cancellationToken = default)
         {
             return await _context.Accounts
-                .Include(a => a.Transactions)
                 .ToListAsync(cancellationToken);
         }
 
