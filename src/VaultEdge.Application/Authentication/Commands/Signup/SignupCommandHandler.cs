@@ -63,7 +63,6 @@ namespace VaultEdge.Application.Authentication.Commands.Signup
             );
 
             await _customerRepository.AddAsync(customer);
-            await _customerRepository.SaveChangesAsync();
 
             var identityResult = await _identityService.CreateUserAsync(
                 customerId: customer.Id, 
@@ -72,7 +71,9 @@ namespace VaultEdge.Application.Authentication.Commands.Signup
 
             if (!identityResult.Succeeded)
             {
-                return AuthenticationErrors.Authentication.IndentityCreationFailed;
+                return Error.Validation(
+                    code: "Auth.IdentityCreationFailed",
+                    description: string.Join("; ", identityResult.Errors));
             }
 
             var securityStamp = await _identityService.GetSecurityStampAsync(customer.Id);
